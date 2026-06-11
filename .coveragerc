@@ -1,0 +1,6 @@
+[run]
+source = pricer
+relative_files = True
+
+[report]
+show_missing = True

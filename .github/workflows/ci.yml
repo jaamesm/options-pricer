@@ -39,7 +39,9 @@ jobs:
         run: |
           PYTHONPATH=. pytest tests/ \
             --cov=pricer \
+            --cov-source=pricer \
             --cov-report=xml:coverage.xml \
+            --cov-report=term-missing \
             -v
 
       - name: Upload coverage to Codecov
