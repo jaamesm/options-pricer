@@ -37,9 +37,11 @@ jobs:
 
       - name: Run tests with coverage
         run: |
+          pip install -e . --no-deps
           pytest tests/ \
             --cov=pricer \
             --cov-report=xml:coverage.xml \
+            --cov-config=pyproject.toml \
             -v
 
       - name: Upload coverage to Codecov
