@@ -1,0 +1,2 @@
+[console_scripts]
+fetch-chain = data.fetch:main

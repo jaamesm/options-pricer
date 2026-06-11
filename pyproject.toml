@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name            = "options-pricer"
+version         = "0.1.0"
+description     = "European & American option pricing: Black-Scholes, Monte Carlo, Binomial, Crank-Nicolson"
+readme          = "README.md"
+requires-python = ">=3.11"
+license         = { text = "MIT" }
+keywords        = ["options", "derivatives", "quantitative finance", "black-scholes",
+                   "monte carlo", "binomial tree", "finite difference", "implied volatility"]
+classifiers     = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.12",
+    "pandas>=2.2",
+    "matplotlib>=3.8",
+    "yfinance>=0.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "jupyter>=1.0",
+    "nbformat>=5.10",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+fetch-chain = "data.fetch:main"
+
+[project.urls]
+Homepage   = "https://github.com/yourusername/options-pricer"
+Repository = "https://github.com/yourusername/options-pricer"
+Issues     = "https://github.com/yourusername/options-pricer/issues"
+
+# ─── Tool configuration ───────────────────────────────────────────────────────
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pricer*", "data*"]
+
+[tool.pytest.ini_options]
+testpaths    = ["tests"]
+addopts      = "-v --tb=short"
+python_files = ["test_*.py"]
+
+[tool.coverage.run]
+source = ["pricer"]
+omit   = ["tests/*", "data/*", "notebooks/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty   = true
+
+[tool.ruff]
+line-length    = 100
+target-version = "py311"
+select         = ["E", "F", "W", "I", "N", "UP"]
+ignore         = ["E501"]   # line length handled by formatter
+
+[tool.ruff.format]
+quote-style = "double"
