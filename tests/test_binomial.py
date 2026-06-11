@@ -1,11 +1,11 @@
 """Tests for pricer/binomial.py (CRR tree)."""
 
-import pytest
 import numpy as np
+import pytest
 
-from pricer.models import OptionParams
-from pricer.black_scholes import price as bs_price
 from pricer import binomial
+from pricer.black_scholes import price as bs_price
+from pricer.models import OptionParams
 
 REF = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)
 ATM_CALL_BS = 10.4506   # analytic reference

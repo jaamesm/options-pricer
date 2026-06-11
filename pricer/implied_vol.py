@@ -36,16 +36,15 @@ Usage example
 from __future__ import annotations
 
 import warnings
-from typing import Callable
+from collections.abc import Callable
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import brentq
 from scipy.interpolate import LinearNDInterpolator, RectBivariateSpline
+from scipy.optimize import brentq
 
-from pricer.models import OptionParams
 from pricer.black_scholes import price as bs_price
-
+from pricer.models import OptionParams
 
 # ---------------------------------------------------------------------------
 # Single-contract IV solver

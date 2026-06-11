@@ -1,6 +1,8 @@
+from dataclasses import dataclass
+
 import numpy as np
 from scipy.stats import norm
-from dataclasses import dataclass
+
 
 @dataclass
 class OptionParams:

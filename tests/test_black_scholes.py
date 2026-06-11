@@ -1,6 +1,6 @@
-import pytest
 import numpy as np
-from pricer.black_scholes import OptionParams, price, greeks
+
+from pricer.black_scholes import OptionParams, greeks, price
 
 # Standard reference option used throughout
 REF = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)

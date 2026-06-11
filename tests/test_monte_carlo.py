@@ -1,8 +1,9 @@
-import pytest
 import numpy as np
-from pricer.models import OptionParams
-from pricer.black_scholes import price as bs_price
+import pytest
+
 from pricer import monte_carlo as mc
+from pricer.black_scholes import price as bs_price
+from pricer.models import OptionParams
 
 REF = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)
 TOLS = {"loose": 0.20, "tight": 0.05}  # absolute price tolerance by N

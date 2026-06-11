@@ -8,14 +8,14 @@ All four methods — Black-Scholes, Monte Carlo, Binomial (CRR), and
 Crank-Nicolson — are tested against this identity and against each other.
 """
 
-import pytest
 import numpy as np
+import pytest
 
-from pricer.models import OptionParams
-from pricer.black_scholes import price as bs_price
-from pricer import monte_carlo as mc
 from pricer import binomial
 from pricer import finite_difference as fd
+from pricer import monte_carlo as mc
+from pricer.black_scholes import price as bs_price
+from pricer.models import OptionParams
 
 # Reference contract (used throughout the project)
 REF = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)

@@ -15,9 +15,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from pricer.models import OptionParams
 from pricer.black_scholes import price as bs_price
-
+from pricer.models import OptionParams
 
 # ---------------------------------------------------------------------------
 # Internal helpers
