@@ -37,6 +37,9 @@ jobs:
       - name: Fetch QQQ chain
         run: PYTHONPATH=. python3 -m data.fetch --ticker QQQ --output data/qqq_chain.csv --min-volume 10
 
+      - name: Fetch TSLA chain
+        run: PYTHONPATH=. python3 -m data.fetch --ticker TSLA --output data/tsla_chain.csv --min-volume 10
+
       - name: Check if data changed
         id: check
         run: |
