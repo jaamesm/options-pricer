@@ -6,6 +6,7 @@ Built as a quantitative finance portfolio project targeting quant research roles
 
 ![CI](https://github.com/jaamesm/options-pricer/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://codecov.io/gh/jaamesm/options-pricer/branch/main/graph/badge.svg)
+
 ---
 
 ## Methods
@@ -50,6 +51,30 @@ Reference contract: `S=100, K=100, T=1yr, r=5%, σ=20%, q=0%`
 | Theta (Θ) | −0.0176 | ∂V/∂t (per day) |
 | Vega (ν) | 0.3752 | ∂V/∂σ (per 1% move) |
 | Rho (ρ) | 0.5323 | ∂V/∂r (per 1% move) |
+
+---
+
+## Live Market Data — SPY Options Chain
+
+The library ships with a fetcher that pulls real options chains from Yahoo Finance. The committed `data/sample_chain.csv` was fetched on **11 June 2026** and contains:
+
+| Field | Value |
+|-------|-------|
+| Underlying | SPY (S&P 500 ETF) |
+| Spot price | $732.48 |
+| Risk-free rate | 3.63% (13-week T-bill, ^IRX) |
+| Dividend yield | 0.78% (trailing annual) |
+| Contracts | 3,695 (1,958 puts, 1,737 calls) |
+| Strike range | $50 — $1,480 |
+| Expiries | 28 dates from Jun 2026 to Sep 2027 |
+
+The implied volatility surface is fitted from this data using the Brent solver across all 3,695 contracts. Near-dated expiries (weekly options) capture the short-end of the vol surface; LEAPS out to September 2027 capture the long end.
+
+To refresh with the latest market data:
+
+```bash
+PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/sample_chain.csv
+```
 
 ---
 
@@ -127,7 +152,7 @@ options-pricer/
 │   └── implied_vol.py       — IV solver (Brent) + vol surface fitting
 ├── data/
 │   ├── fetch.py             — pull options chain via yfinance
-│   └── sample_chain.csv     — synthetic SPY chain (266 contracts, 5 expiries)
+│   └── sample_chain.csv     — real SPY chain (3,695 contracts, 28 expiries, Jun 2026)
 ├── tests/
 │   ├── test_black_scholes.py
 │   ├── test_monte_carlo.py
@@ -191,7 +216,11 @@ print(iv.solve(p, mkt, "call"))  # recovers 0.2000
 ### Fetch a live options chain
 
 ```bash
-python3 -m data.fetch --ticker SPY --output data/sample_chain.csv
+# SPY (default)
+PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/sample_chain.csv
+
+# Any ticker
+PYTHONPATH=. python3 -m data.fetch --ticker AAPL --output data/aapl_chain.csv
 ```
 
 ---
@@ -199,7 +228,7 @@ python3 -m data.fetch --ticker SPY --output data/sample_chain.csv
 ## Tests
 
 ```bash
-pytest tests/          # 82 tests
+pytest tests/          # 82 tests, 94% coverage
 pytest tests/ --cov=pricer --cov-report=term-missing
 ```
 
