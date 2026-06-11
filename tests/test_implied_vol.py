@@ -1,12 +1,12 @@
 """Tests for pricer/implied_vol.py."""
 
-import pytest
 import numpy as np
 import pandas as pd
+import pytest
 
-from pricer.models import OptionParams
-from pricer.black_scholes import price as bs_price
 from pricer import implied_vol as iv
+from pricer.black_scholes import price as bs_price
+from pricer.models import OptionParams
 
 REF = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)
 ATM_CALL_BS = bs_price(REF, "call")

@@ -1,8 +1,9 @@
 import numpy as np
 import pytest
-from pricer.models import OptionParams
-from pricer.black_scholes import price as bs_price
+
 from pricer import monte_carlo as mc
+from pricer.black_scholes import price as bs_price
+from pricer.models import OptionParams
 
 REF = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)
 TOLS = {"loose": 0.20, "tight": 0.05}
@@ -43,7 +44,7 @@ def test_control_variate_reduces_se():
     plain = mc.price(REF, "call", n=50_000, antithetic=False, control_variate=False, seed=3)
     cv    = mc.price(REF, "call", n=50_000, antithetic=False, control_variate=True,  seed=3)
     assert cv["se"] < plain["se"]
-    
+
 def test_convergence_output_shape():
     sizes = [1_000, 10_000, 100_000]
     results = mc.convergence(REF, sample_sizes=sizes)
@@ -56,7 +57,7 @@ def test_convergence_default_sample_sizes():
     rows = mc.convergence(REF)
     assert len(rows) == 8
     assert rows[0]["n"] == 100
-    
+
 def test_invalid_kind_raises():
     with pytest.raises(ValueError, match="kind"):
         mc.price(REF, kind="straddle")
