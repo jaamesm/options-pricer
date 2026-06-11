@@ -43,6 +43,13 @@ jobs:
             --cov-report=term-missing \
             -v
 
+      - name: Debug coverage file
+        run: |
+          echo "=== coverage.xml size ==="
+          wc -c coverage.xml
+          echo "=== coverage.xml contents ==="
+          cat coverage.xml
+
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.12'
         uses: codecov/codecov-action@v5
