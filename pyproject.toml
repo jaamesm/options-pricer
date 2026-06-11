@@ -61,6 +61,7 @@ python_files = ["test_*.py"]
 
 [tool.coverage.run]
 source = ["pricer"]
+relative_files = true
 omit   = ["tests/*", "data/*", "notebooks/*"]
 
 [tool.coverage.report]
