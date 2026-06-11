@@ -4,8 +4,10 @@ A Python library for pricing European and American options using four independen
 
 Built as a quantitative finance portfolio project targeting quant research roles.
 
-![CI](https://github.com/jaamesm/options-pricer/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/jaamesm/options-pricer/actions/workflows/ci.yml/badge.svg?branch=main&label=CI&message=passing)
 ![Coverage](https://codecov.io/gh/jaamesm/options-pricer/branch/main/graph/badge.svg)
+![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
