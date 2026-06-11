@@ -1,0 +1,53 @@
+name: Daily Data Fetch
+
+on:
+  schedule:
+    # 9:45 AM ET = 14:45 UTC (EST) or 13:45 UTC (EDT)
+    # Run at both times to cover daylight saving changes
+    - cron: '45 14 * * 1-5'
+  workflow_dispatch:  # allow manual trigger from GitHub Actions tab
+
+jobs:
+  fetch:
+    name: Fetch options chains
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # needed to commit back to the repo
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install numpy scipy pandas yfinance
+
+      - name: Fetch SPY chain
+        run: PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/sample_chain.csv --min-volume 10
+
+      - name: Fetch AAPL chain
+        run: PYTHONPATH=. python3 -m data.fetch --ticker AAPL --output data/aapl_chain.csv --min-volume 10
+
+      - name: Fetch SPX chain
+        run: PYTHONPATH=. python3 -m data.fetch --ticker SPX --output data/spx_chain.csv --min-volume 5
+        continue-on-error: true   # SPX options data can be patchy via yfinance
+
+      - name: Check if data changed
+        id: check
+        run: |
+          git diff --quiet data/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit updated chains
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "chore: update options chains $(date -u +'%Y-%m-%d')"
+          git push
