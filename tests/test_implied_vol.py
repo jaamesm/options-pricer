@@ -1,12 +1,12 @@
 """Tests for pricer/implied_vol.py."""
 
+import pytest
 import numpy as np
 import pandas as pd
-import pytest
 
-from pricer import implied_vol as iv
-from pricer.black_scholes import price as bs_price
 from pricer.models import OptionParams
+from pricer.black_scholes import price as bs_price
+from pricer import implied_vol as iv
 
 REF = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)
 ATM_CALL_BS = bs_price(REF, "call")
@@ -155,3 +155,32 @@ def test_fit_surface_drops_nan_rows():
     chain.loc[0, "mid"] = -999.0   # will produce NaN IV
     df, _ = iv.fit_surface(chain)
     assert df["iv"].isna().sum() == 0
+
+
+# ---------------------------------------------------------------------------
+# Coverage gap tests
+# ---------------------------------------------------------------------------
+
+def test_solve_brent_failure():
+    """IV solver should raise ValueError when it cannot bracket the root."""
+    # Use an absurdly large price that's within bounds but unsolvable
+    # Force by patching: use a near-zero T so any sigma gives ~intrinsic
+    p = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)
+    # Price just above lower bound — Brent will find it fine.
+    # To hit the except branch we need to monkeypatch brentq.
+    import unittest.mock as mock
+    with mock.patch("pricer.implied_vol.brentq", side_effect=ValueError("no bracket")):
+        with pytest.raises(ValueError, match="IV solver failed"):
+            iv.solve(p, market_price=5.0, kind="call")
+
+
+def test_fit_surface_rectangular_grid():
+    """fit_surface on a clean rectangular grid should use RectBivariateSpline."""
+    # _make_chain produces a rectangular grid (5 strikes × 3 expiries)
+    chain = _make_chain()
+    df, interp = iv.fit_surface(chain)
+    # All 15 call rows should be valid
+    assert len(df) == 15
+    # Interpolator should work at interior points
+    result = interp(np.array([100.0]), np.array([0.5]))
+    assert np.isfinite(float(np.asarray(result).ravel()[0]))

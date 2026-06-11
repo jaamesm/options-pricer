@@ -37,3 +37,11 @@ def test_gamma_positive():
 def test_call_put_gamma_equal():
     """Gamma is identical for a call and put with same params."""
     assert abs(greeks(REF, "call")["gamma"] - greeks(REF, "put")["gamma"]) < 1e-12
+
+def test_invalid_kind_price_raises():
+    with pytest.raises(ValueError, match="kind"):
+        price(REF, kind="straddle")
+
+def test_invalid_kind_greeks_raises():
+    with pytest.raises(ValueError, match="kind"):
+        greeks(REF, kind="straddle")

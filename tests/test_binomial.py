@@ -1,11 +1,11 @@
 """Tests for pricer/binomial.py (CRR tree)."""
 
-import numpy as np
 import pytest
+import numpy as np
 
-from pricer import binomial
-from pricer.black_scholes import price as bs_price
 from pricer.models import OptionParams
+from pricer.black_scholes import price as bs_price
+from pricer import binomial
 
 REF = OptionParams(S=100, K=100, T=1.0, r=0.05, sigma=0.2)
 ATM_CALL_BS = 10.4506   # analytic reference
@@ -113,3 +113,20 @@ def test_convergence_american_put():
     rows = binomial.convergence(REF, "put", exercise="american", step_sizes=[50, 200])
     assert all(r["price"] > 0 for r in rows)
     assert rows[0]["benchmark"] > 0
+
+
+# ---------------------------------------------------------------------------
+# Coverage gap tests
+# ---------------------------------------------------------------------------
+
+def test_n_less_than_1_raises():
+    """n < 1 should raise ValueError."""
+    with pytest.raises(ValueError, match="n must be"):
+        binomial.price(REF, n=0)
+
+
+def test_convergence_default_step_sizes():
+    """convergence() with no step_sizes arg should use the default list."""
+    rows = binomial.convergence(REF)
+    assert len(rows) == 7   # default list has 7 entries
+    assert rows[0]["n"] == 10
