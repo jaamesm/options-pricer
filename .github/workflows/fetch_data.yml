@@ -34,9 +34,8 @@ jobs:
       - name: Fetch AAPL chain
         run: PYTHONPATH=. python3 -m data.fetch --ticker AAPL --output data/aapl_chain.csv --min-volume 10
 
-      - name: Fetch SPX chain
-        run: PYTHONPATH=. python3 -m data.fetch --ticker SPX --output data/spx_chain.csv --min-volume 5
-        continue-on-error: true   # SPX options data can be patchy via yfinance
+      - name: Fetch QQQ chain
+        run: PYTHONPATH=. python3 -m data.fetch --ticker QQQ --output data/qqq_chain.csv --min-volume 10
 
       - name: Check if data changed
         id: check
