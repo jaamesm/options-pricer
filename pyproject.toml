@@ -70,8 +70,15 @@ skip_empty   = true
 [tool.ruff]
 line-length    = 100
 target-version = "py311"
-select         = ["E", "F", "W", "I", "N", "UP"]
-ignore         = ["E501"]   # line length handled by formatter
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = [
+    "E501",   # line length
+    "N802",   # function name should be lowercase (test_*_T etc.)
+    "N803",   # argument name should be lowercase (S, K, T)
+    "N806",   # variable should be lowercase (S, K, T, V, Z — math notation)
+]
 
 [tool.ruff.format]
 quote-style = "double"

@@ -34,9 +34,8 @@ from __future__ import annotations
 import numpy as np
 from scipy.linalg import solve_banded
 
-from pricer.models import OptionParams
 from pricer.black_scholes import price as bs_price
-
+from pricer.models import OptionParams
 
 # ---------------------------------------------------------------------------
 # Tri-diagonal helpers
@@ -136,10 +135,6 @@ def price(
     lower_A = np.full(m_int, a_sub)
     diag_A  = np.full(m_int, a_diag)
     upper_A = np.full(m_int, a_sup)
-
-    lower_B = np.full(m_int, b_sub)
-    diag_B  = np.full(m_int, b_diag)
-    upper_B = np.full(m_int, b_sup)
 
     # Time loop: step backwards from T to 0
     for k in range(n):
