@@ -6,7 +6,7 @@ Built as a quantitative finance portfolio project targeting quant research roles
 
 ![CI](https://github.com/jaamesm/options-pricer/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://codecov.io/gh/jaamesm/options-pricer/branch/main/graph/badge.svg)
-![Vol Surface](notebooks/vol_surface.png)
+![Vol Surface](notebooks/iv_surface_3d.png)
 ---
 
 ## Methods
