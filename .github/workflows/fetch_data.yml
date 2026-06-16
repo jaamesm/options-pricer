@@ -50,8 +50,8 @@ jobs:
             --ticker SPY \
             --chain data/sample_chain.csv \
             --threshold 5.0 \
-            --csv-out data/signals.csv \
-            --md-out data/signals.md
+            --csv-out data/spy_signals.csv \
+            --md-out data/spy_signals.md
 
       - name: Run AAPL mispricing scanner
         run: |
