@@ -6,7 +6,9 @@ Built as a quantitative finance portfolio project targeting quant research roles
 
 ![CI](https://github.com/jaamesm/options-pricer/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://codecov.io/gh/jaamesm/options-pricer/branch/main/graph/badge.svg)
+
 ![Vol Surface](notebooks/iv_surface_3d.png)
+
 ---
 
 ## Methods
@@ -54,28 +56,26 @@ Reference contract: `S=100, K=100, T=1yr, r=5%, σ=20%, q=0%`
 
 ---
 
-## Live Market Data — SPY Options Chain
+## Live Market Data
 
-The library ships with a fetcher that pulls real options chains from Yahoo Finance. The committed `data/sample_chain.csv` was fetched on **11 June 2026** and contains:
+The library fetches real options chains from Yahoo Finance for four tickers — SPY, AAPL, QQQ, and TSLA — via a scheduled GitHub Actions pipeline that runs every weekday morning at 9:45am ET. Updated chain files are committed to the repo automatically, so the data is always current without manual intervention.
 
-| Field | Value |
-|-------|-------|
-| Underlying | SPY (S&P 500 ETF) |
-| Spot price | $732.48 |
-| Risk-free rate | 3.63% (13-week T-bill, ^IRX) |
-| Dividend yield | 0.78% (trailing annual) |
-| Contracts | 3,695 (1,958 puts, 1,737 calls) |
-| Strike range | $50 — $1,480 |
-| Expiries | 28 dates from Jun 2026 to Sep 2027 |
+| Ticker | Description | Vol profile |
+|--------|-------------|-------------|
+| SPY | S&P 500 ETF | Low vol, strong put skew (institutional hedging) |
+| QQQ | Nasdaq-100 ETF | Moderate vol, put skew |
+| AAPL | Apple Inc. | Moderate vol, call skew (earnings speculation) |
+| TSLA | Tesla Inc. | High vol (~70% ATM IV), pronounced call skew |
 
-The implied volatility surface is fitted from this data using the Brent solver across all 3,695 contracts. Near-dated expiries (weekly options) capture the short-end of the vol surface; LEAPS out to September 2027 capture the long end.
+The four tickers are chosen to span the volatility spectrum — from low-vol index ETFs to high-vol single stocks — producing meaningfully different implied volatility surfaces and skew profiles.
 
-The daily pipeline fetches chains for SPY, AAPL, QQQ, and TSLA every weekday morning at 9:45am ET via a scheduled GitHub Actions workflow, committing updated CSVs automatically.
+The risk-free rate is pulled automatically from the 13-week T-bill yield (^IRX) and the dividend yield from yfinance's trailing annual figure, so no manual inputs are required.
 
-To refresh with the latest market data:
+To fetch the latest data manually:
 
 ```bash
-PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/sample_chain.csv
+PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/spy_chain.csv
+PYTHONPATH=. python3 -m data.fetch --ticker TSLA --output data/tsla_chain.csv
 ```
 
 ---
@@ -85,10 +85,10 @@ PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/sample_chain.csv
 `data/scanner.py` runs after each daily fetch and compares each contract's implied volatility to the ATM IV for the same expiry. Rather than comparing to historical vol (which would flag almost everything due to the permanent volatility risk premium), this detects genuine skew anomalies — contracts that are unusually cheap or expensive relative to what the rest of that expiry's smile is pricing.
 
 ```bash
-PYTHONPATH=. python3 -m data.scanner --ticker SPY --chain data/sample_chain.csv
+PYTHONPATH=. python3 -m data.scanner --ticker SPY --chain data/spy_chain.csv
 ```
 
-Results are committed daily to `data/signals.csv` and `data/signals.md`.
+Results are committed daily to `data/spy_signals.csv`, `data/aapl_signals.csv`, `data/qqq_signals.csv`, and `data/tsla_signals.md`.
 
 ### Interpreting the output
 
@@ -97,7 +97,7 @@ Results are committed daily to `data/signals.csv` and `data/signals.md`.
 **The signal is most useful day-over-day.** A single day's output tells you the current skew profile. What's more informative is when the skew widens or narrows sharply relative to recent days — a sudden spike in OTM put IV can indicate institutional hedging demand ahead of a risk event (earnings, FOMC, geopolitical events), while a compression in put skew can indicate reduced tail-risk concern.
 
 **Filters applied to reduce noise:**
-- Contracts with less than 7 days to expiry are excluded (short-dated IV is unreliable)
+- Contracts with less than 14 days to expiry are excluded (short-dated IV is unreliable)
 - Only contracts within ±10% of spot are considered (avoids deep ITM artefacts)
 - Contracts with mid price below $0.50 are excluded (penny options have wide spreads)
 - Minimum volume of 10 contracts required
@@ -179,9 +179,14 @@ options-pricer/
 ├── data/
 │   ├── fetch.py             — pull options chain via yfinance
 │   ├── scanner.py           — IV skew anomaly scanner
-│   ├── sample_chain.csv     — real SPY chain (auto-updated daily)
-│   ├── signals.csv          — latest scanner output (auto-updated daily)
-│   └── signals.md           — markdown signal report (auto-updated daily)
+│   ├── spy_chain.csv        — SPY chain (auto-updated daily)
+│   ├── aapl_chain.csv       — AAPL chain (auto-updated daily)
+│   ├── qqq_chain.csv        — QQQ chain (auto-updated daily)
+│   ├── tsla_chain.csv       — TSLA chain (auto-updated daily)
+│   ├── spy_signals.csv/md   — SPY scanner output (auto-updated daily)
+│   ├── aapl_signals.csv/md  — AAPL scanner output (auto-updated daily)
+│   ├── qqq_signals.csv/md   — QQQ scanner output (auto-updated daily)
+│   └── tsla_signals.csv/md  — TSLA scanner output (auto-updated daily)
 ├── tests/
 │   ├── test_black_scholes.py
 │   ├── test_monte_carlo.py
@@ -194,7 +199,8 @@ options-pricer/
 │   ├── 02_vol_surface.ipynb
 │   └── 03_greeks_analysis.ipynb
 ├── pyproject.toml
-└── .github/workflows/ci.yml
+├── .github/workflows/ci.yml
+└── .github/workflows/fetch_data.yml
 ```
 
 ---
@@ -245,10 +251,7 @@ print(iv.solve(p, mkt, "call"))  # recovers 0.2000
 ### Fetch a live options chain
 
 ```bash
-# SPY (default)
-PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/sample_chain.csv
-
-# Any ticker
+PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/spy_chain.csv
 PYTHONPATH=. python3 -m data.fetch --ticker AAPL --output data/aapl_chain.csv
 ```
 
