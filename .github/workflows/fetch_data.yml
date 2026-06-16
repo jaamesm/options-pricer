@@ -3,7 +3,6 @@ name: Daily Data Fetch
 on:
   schedule:
     # 9:45 AM ET = 14:45 UTC (EST) or 13:45 UTC (EDT)
-    # Run at both times to cover daylight saving changes
     - cron: '45 14 * * 1-5'
   workflow_dispatch:  # allow manual trigger from GitHub Actions tab
 
@@ -40,16 +39,25 @@ jobs:
       - name: Fetch TSLA chain
         run: PYTHONPATH=. python3 -m data.fetch --ticker TSLA --output data/tsla_chain.csv --min-volume 10
 
+      - name: Run SPY mispricing scanner
+        run: |
+          PYTHONPATH=. python3 -m data.scanner \
+            --ticker SPY \
+            --chain data/sample_chain.csv \
+            --threshold 3.0 \
+            --csv-out data/signals.csv \
+            --md-out data/signals.md
+
       - name: Check if data changed
         id: check
         run: |
           git diff --quiet data/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
 
-      - name: Commit updated chains
+      - name: Commit updated chains and signals
         if: steps.check.outputs.changed == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/
-          git commit -m "chore: update options chains $(date -u +'%Y-%m-%d')"
+          git commit -m "chore: update options chains and signals $(date -u +'%Y-%m-%d')"
           git push
