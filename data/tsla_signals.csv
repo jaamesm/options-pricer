@@ -1,6 +1,16 @@
 ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-TSLA,call,465.0,2026-07-02,0.0438,1.94,48.47,42.74,47.34,5.74,1.13,IV elevated vs ATM skew
-TSLA,put,350.0,2026-07-02,0.0438,1.31,49.85,44.76,47.34,5.09,2.51,IV elevated vs ATM skew
-TSLA,put,455.0,2026-07-10,0.0658,53.1,48.47,43.47,47.34,5.0,1.13,IV elevated vs ATM skew
-TSLA,put,460.0,2026-07-10,0.0658,57.55,49.4,43.47,47.34,5.93,2.05,IV elevated vs ATM skew
-TSLA,put,465.0,2026-07-10,0.0658,62.0,50.07,43.47,47.34,6.6,2.73,IV elevated vs ATM skew
+TSLA,call,345.0,2026-07-02,0.0438,64.025,66.93,46.96,47.35,19.97,19.58,IV elevated vs ATM skew
+TSLA,call,355.0,2026-07-02,0.0438,54.275,59.62,46.96,47.35,12.66,12.27,IV elevated vs ATM skew
+TSLA,call,360.0,2026-07-02,0.0438,49.65,57.17,46.96,47.35,10.21,9.82,IV elevated vs ATM skew
+TSLA,call,365.0,2026-07-02,0.0438,45.275,55.67,46.96,47.35,8.71,8.32,IV elevated vs ATM skew
+TSLA,put,345.0,2026-07-02,0.0438,1.035,50.25,41.47,47.35,8.78,2.9,IV elevated vs ATM skew
+TSLA,put,350.0,2026-07-02,0.0438,1.235,48.6,41.47,47.35,7.13,1.25,IV elevated vs ATM skew
+TSLA,put,355.0,2026-07-02,0.0438,1.505,47.18,41.47,47.35,5.71,-0.17,IV elevated vs ATM skew
+TSLA,call,345.0,2026-07-10,0.0658,64.825,57.47,45.22,47.35,12.25,10.12,IV elevated vs ATM skew
+TSLA,call,350.0,2026-07-10,0.0658,60.425,56.51,45.22,47.35,11.29,9.16,IV elevated vs ATM skew
+TSLA,call,365.0,2026-07-10,0.0658,46.875,50.55,45.22,47.35,5.32,3.2,IV elevated vs ATM skew
+TSLA,put,345.0,2026-07-10,0.0658,1.74,46.51,40.72,47.35,5.79,-0.84,IV elevated vs ATM skew
+TSLA,call,345.0,2026-07-17,0.0849,65.925,54.26,45.36,47.35,8.9,6.91,IV elevated vs ATM skew
+TSLA,call,350.0,2026-07-17,0.0849,61.425,52.75,45.36,47.35,7.39,5.4,IV elevated vs ATM skew
+TSLA,call,355.0,2026-07-17,0.0849,57.3,52.33,45.36,47.35,6.97,4.98,IV elevated vs ATM skew
+TSLA,call,360.0,2026-07-17,0.0849,52.9,50.7,45.36,47.35,5.34,3.34,IV elevated vs ATM skew
