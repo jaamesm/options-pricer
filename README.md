@@ -4,10 +4,8 @@ A Python library for pricing European and American options using four independen
 
 Built as a quantitative finance portfolio project targeting quant research roles.
 
-![CI](https://github.com/jaamesm/options-pricer/actions/workflows/ci.yml/badge.svg?branch=main&label=CI&message=passing)
+![CI](https://github.com/jaamesm/options-pricer/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://codecov.io/gh/jaamesm/options-pricer/branch/main/graph/badge.svg)
-![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
@@ -72,11 +70,37 @@ The library ships with a fetcher that pulls real options chains from Yahoo Finan
 
 The implied volatility surface is fitted from this data using the Brent solver across all 3,695 contracts. Near-dated expiries (weekly options) capture the short-end of the vol surface; LEAPS out to September 2027 capture the long end.
 
+The daily pipeline fetches chains for SPY, AAPL, QQQ, and TSLA every weekday morning at 9:45am ET via a scheduled GitHub Actions workflow, committing updated CSVs automatically.
+
 To refresh with the latest market data:
 
 ```bash
 PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/sample_chain.csv
 ```
+
+---
+
+## Mispricing Scanner
+
+`data/scanner.py` runs after each daily fetch and compares each contract's implied volatility to the ATM IV for the same expiry. Rather than comparing to historical vol (which would flag almost everything due to the permanent volatility risk premium), this detects genuine skew anomalies — contracts that are unusually cheap or expensive relative to what the rest of that expiry's smile is pricing.
+
+```bash
+PYTHONPATH=. python3 -m data.scanner --ticker SPY --chain data/sample_chain.csv
+```
+
+Results are committed daily to `data/signals.csv` and `data/signals.md`.
+
+### Interpreting the output
+
+**Put skew dominance is expected for index options.** SPY puts consistently show elevated IV vs ATM because institutional investors buy OTM puts as portfolio hedges, creating persistent demand that inflates put prices. A typical daily report flags significantly more puts than calls — this is normal market structure, not a pricing error.
+
+**The signal is most useful day-over-day.** A single day's output tells you the current skew profile. What's more informative is when the skew widens or narrows sharply relative to recent days — a sudden spike in OTM put IV can indicate institutional hedging demand ahead of a risk event (earnings, FOMC, geopolitical events), while a compression in put skew can indicate reduced tail-risk concern.
+
+**Filters applied to reduce noise:**
+- Contracts with less than 7 days to expiry are excluded (short-dated IV is unreliable)
+- Only contracts within ±10% of spot are considered (avoids deep ITM artefacts)
+- Contracts with mid price below $0.50 are excluded (penny options have wide spreads)
+- Minimum volume of 10 contracts required
 
 ---
 
@@ -154,7 +178,10 @@ options-pricer/
 │   └── implied_vol.py       — IV solver (Brent) + vol surface fitting
 ├── data/
 │   ├── fetch.py             — pull options chain via yfinance
-│   └── sample_chain.csv     — real SPY chain (3,695 contracts, 28 expiries, Jun 2026)
+│   ├── scanner.py           — IV skew anomaly scanner
+│   ├── sample_chain.csv     — real SPY chain (auto-updated daily)
+│   ├── signals.csv          — latest scanner output (auto-updated daily)
+│   └── signals.md           — markdown signal report (auto-updated daily)
 ├── tests/
 │   ├── test_black_scholes.py
 │   ├── test_monte_carlo.py
@@ -230,7 +257,7 @@ PYTHONPATH=. python3 -m data.fetch --ticker AAPL --output data/aapl_chain.csv
 ## Tests
 
 ```bash
-pytest tests/          # 82 tests, 94% coverage
+pytest tests/          # 87 tests, 97% coverage
 pytest tests/ --cov=pricer --cov-report=term-missing
 ```
 
