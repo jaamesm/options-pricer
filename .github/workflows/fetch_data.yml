@@ -53,6 +53,33 @@ jobs:
             --csv-out data/signals.csv \
             --md-out data/signals.md
 
+      - name: Run AAPL mispricing scanner
+        run: |
+          PYTHONPATH=. python3 -m data.scanner \
+            --ticker AAPL \
+            --chain data/aapl_chain.csv \
+            --threshold 5.0 \
+            --csv-out data/aapl_signals.csv \
+            --md-out data/aapl_signals.md
+
+      - name: Run QQQ mispricing scanner
+        run: |
+          PYTHONPATH=. python3 -m data.scanner \
+            --ticker QQQ \
+            --chain data/qqq_chain.csv \
+            --threshold 5.0 \
+            --csv-out data/qqq_signals.csv \
+            --md-out data/qqq_signals.md
+
+      - name: Run TSLA mispricing scanner
+        run: |
+          PYTHONPATH=. python3 -m data.scanner \
+            --ticker TSLA \
+            --chain data/tsla_chain.csv \
+            --threshold 5.0 \
+            --csv-out data/tsla_signals.csv \
+            --md-out data/tsla_signals.md
+
       - name: Check if data changed
         id: check
         run: |
