@@ -251,7 +251,10 @@ print(iv.solve(p, mkt, "call"))  # recovers 0.2000
 ### Fetch a live options chain
 
 ```bash
+# SPY (default)
 PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/spy_chain.csv
+
+# Any ticker
 PYTHONPATH=. python3 -m data.fetch --ticker AAPL --output data/aapl_chain.csv
 ```
 
