@@ -108,6 +108,7 @@ def scan(
     # --- Filters
     chain = chain.dropna(subset=["mid", "strike", "expiry", "S", "r", "q"])
     chain = chain[chain["expiry"] > 0].copy()
+    chain = chain[chain["expiry"] >= 14/365].copy()   # exclude < 2 weeks
     chain = chain[chain["expiry"] <= max_expiry_years].copy()
     chain = chain[chain["volume"] >= min_volume].copy()
     chain = chain[chain["mid"] >= min_mid].copy()
