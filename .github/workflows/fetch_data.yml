@@ -33,7 +33,7 @@ jobs:
         run: pip install numpy scipy pandas yfinance
 
       - name: Fetch SPY chain
-        run: PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/sample_chain.csv --min-volume 10
+        run: PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/spy_chain.csv --min-volume 10
 
       - name: Fetch AAPL chain
         run: PYTHONPATH=. python3 -m data.fetch --ticker AAPL --output data/aapl_chain.csv --min-volume 10
@@ -48,7 +48,7 @@ jobs:
         run: |
           PYTHONPATH=. python3 -m data.scanner \
             --ticker SPY \
-            --chain data/sample_chain.csv \
+            --chain data/spy_chain.csv \
             --threshold 5.0 \
             --csv-out data/spy_signals.csv \
             --md-out data/spy_signals.md
