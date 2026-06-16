@@ -84,6 +84,9 @@ def scan(
     chain = chain[chain["expiry"] <= max_expiry_years].copy()
     chain = chain.dropna(subset=["mid", "strike", "expiry", "S", "r", "q"])
 
+    # Filter to near-the-money contracts only (moneyness within 20% of spot)
+    chain = chain[abs(chain["strike"] / chain["S"] - 1) <= 0.20].copy()
+
     # --- Historical vol
     hist_vol = historical_vol(symbol)
 
