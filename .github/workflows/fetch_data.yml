@@ -4,7 +4,7 @@ on:
   schedule:
     # 9:45 AM ET = 14:45 UTC (EST) or 13:45 UTC (EDT)
     - cron: '45 14 * * 1-5'
-  workflow_dispatch:  # allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
   fetch:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write   # needed to commit back to the repo
+      contents: write
 
     steps:
       - name: Checkout
@@ -25,9 +25,6 @@ jobs:
         run: |
           git fetch --all
           git reset --hard origin/main
-
-      - name: Configure git safe directory
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -85,6 +82,9 @@ jobs:
             --threshold 5.0 \
             --csv-out data/tsla_signals.csv \
             --md-out data/tsla_signals.md
+
+      - name: Update skew history
+        run: PYTHONPATH=. python3 -m data.track_skew
 
       - name: Check if data changed
         id: check
