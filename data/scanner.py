@@ -1,18 +1,21 @@
 """
 data/scanner.py — Mispricing scanner.
 
-Compares market implied volatility from the options chain against
-30-day historical volatility computed from recent price history.
-Flags contracts where the IV premium exceeds a configurable threshold.
+For each expiry in the chain, computes the ATM implied volatility and flags
+contracts where IV deviates significantly from the ATM IV for that expiry.
+This detects genuine skew anomalies rather than the permanent volatility risk
+premium (which causes market IV to always exceed historical vol).
+
+Also reports each contract's IV vs 30-day historical vol for context.
 
 Usage
 -----
-    PYTHONPATH=. python3 -m data.scanner --ticker SPY --threshold 3.0
+    PYTHONPATH=. python3 -m data.scanner --ticker SPY --threshold 5.0
 
 Output
 ------
-    data/signals.csv  — full results table
-    data/signals.md   — markdown summary for GitHub viewing
+    data/signals.csv  — full flagged results
+    data/signals.md   — markdown summary split by calls/puts
 """
 
 from __future__ import annotations
@@ -34,7 +37,7 @@ from pricer.models import OptionParams
 # ---------------------------------------------------------------------------
 
 def historical_vol(symbol: str, window: int = 30) -> float:
-    """Compute annualised close-to-close historical volatility over `window` days."""
+    """Annualised close-to-close historical volatility over `window` trading days."""
     ticker = yf.Ticker(symbol)
     hist = ticker.history(period=f"{window + 10}d")
     if len(hist) < window:
@@ -45,54 +48,12 @@ def historical_vol(symbol: str, window: int = 30) -> float:
 
 
 # ---------------------------------------------------------------------------
-# Scanner
+# IV solver — safe wrapper
 # ---------------------------------------------------------------------------
 
-def scan(
-    symbol: str,
-    chain_path: str | None = None,
-    threshold: float = 3.0,
-    min_volume: int = 10,
-    max_expiry_years: float = 1.0,
-) -> pd.DataFrame:
-    """Scan an options chain for IV vs historical vol mispricings.
-
-    Parameters
-    ----------
-    symbol          : ticker symbol
-    chain_path      : path to CSV chain file; if None, fetches live data
-    threshold       : minimum IV premium (percentage points) to flag
-    min_volume      : minimum contract volume to include
-    max_expiry_years: only consider near-dated contracts
-
-    Returns
-    -------
-    pd.DataFrame with columns:
-        ticker, kind, strike, expiry_date, expiry, mid, market_iv,
-        hist_vol, iv_premium, signal
-    """
-    # --- Load chain
-    if chain_path and Path(chain_path).exists():
-        chain = pd.read_csv(chain_path)
-    else:
-        from data.fetch import fetch_chain
-        chain = fetch_chain(symbol, max_expiry_years=max_expiry_years,
-                           min_volume=min_volume)
-
-    # --- Filter
-    chain = chain[chain["volume"] >= min_volume].copy()
-    chain = chain[chain["expiry"] <= max_expiry_years].copy()
-    chain = chain.dropna(subset=["mid", "strike", "expiry", "S", "r", "q"])
-
-    # Filter to near-the-money contracts only (moneyness within 20% of spot)
-    chain = chain[abs(chain["strike"] / chain["S"] - 1) <= 0.20].copy()
-
-    # --- Historical vol
-    hist_vol = historical_vol(symbol)
-
-    # --- Solve IV for each contract
-    results = []
-    for _, row in chain.iterrows():
+def _solve_iv(row: pd.Series, kind: str) -> float | None:
+    """Solve IV for a single contract row. Returns None on failure."""
+    try:
         p = OptionParams(
             S=float(row["S"]),
             K=float(row["strike"]),
@@ -101,37 +62,122 @@ def scan(
             sigma=0.2,
             q=float(row.get("q", 0.0)),
         )
-        try:
-            market_iv = iv.solve(p, float(row["mid"]), kind=str(row["kind"]))
-        except (ValueError, RuntimeError):
-            continue
+        return iv.solve(p, float(row["mid"]), kind=kind)
+    except (ValueError, RuntimeError):
+        return None
 
-        iv_premium = (market_iv - hist_vol) * 100   # in percentage points
 
-        if abs(iv_premium) >= threshold:
-            signal = "IV elevated — option may be overpriced" if iv_premium > 0 \
-                else "IV depressed — option may be underpriced"
-        else:
-            signal = "—"
+# ---------------------------------------------------------------------------
+# Scanner
+# ---------------------------------------------------------------------------
 
-        results.append({
-            "ticker":       symbol.upper(),
-            "kind":         row["kind"],
-            "strike":       row["strike"],
-            "expiry_date":  row["expiry_date"],
-            "expiry":       round(float(row["expiry"]), 4),
-            "mid":          round(float(row["mid"]), 3),
-            "market_iv":    round(market_iv * 100, 2),
-            "hist_vol":     round(hist_vol * 100, 2),
-            "iv_premium":   round(iv_premium, 2),
-            "signal":       signal,
-        })
+def scan(
+    symbol: str,
+    chain_path: str | None = None,
+    threshold: float = 5.0,
+    min_volume: int = 10,
+    min_mid: float = 0.50,
+    max_expiry_years: float = 1.0,
+    moneyness_band: float = 0.15,
+) -> pd.DataFrame:
+    """Scan for IV anomalies relative to the ATM IV for each expiry.
+
+    Parameters
+    ----------
+    symbol          : ticker symbol
+    chain_path      : path to existing chain CSV; fetches live data if None
+    threshold       : minimum |IV - ATM IV| in percentage points to flag
+    min_volume      : drop contracts with volume below this
+    min_mid         : drop contracts with mid price below this (filters pennies)
+    max_expiry_years: only consider expiries within this range
+    moneyness_band  : only consider strikes within this fraction of spot
+                      e.g. 0.15 → strikes within ±15% of spot
+
+    Returns
+    -------
+    pd.DataFrame of flagged contracts only, sorted by expiry then kind then strike
+    """
+    # --- Load chain
+    if chain_path and Path(chain_path).exists():
+        chain = pd.read_csv(chain_path)
+    else:
+        from data.fetch import fetch_chain
+        chain = fetch_chain(symbol, max_expiry_years=max_expiry_years,
+                            min_volume=min_volume)
+
+    # --- Filters
+    chain = chain.dropna(subset=["mid", "strike", "expiry", "S", "r", "q"])
+    chain = chain[chain["expiry"] > 0].copy()
+    chain = chain[chain["expiry"] <= max_expiry_years].copy()
+    chain = chain[chain["volume"] >= min_volume].copy()
+    chain = chain[chain["mid"] >= min_mid].copy()
+    chain = chain[abs(chain["strike"] / chain["S"] - 1) <= moneyness_band].copy()
+    chain = chain.reset_index(drop=True)
+
+    if chain.empty:
+        return pd.DataFrame()
+
+    # --- Historical vol (once for the whole symbol)
+    hist_vol_val = historical_vol(symbol)
+
+    # --- Per-expiry, per-kind processing
+    results = []
+
+    for expiry_date, exp_group in chain.groupby("expiry_date"):
+        T = float(exp_group["expiry"].iloc[0])
+        S = float(exp_group["S"].iloc[0])
+
+        for kind in ("call", "put"):
+            kind_group = exp_group[exp_group["kind"] == kind].copy()
+            if len(kind_group) < 2:
+                continue
+
+            # Solve IV for every contract in this expiry/kind slice
+            kind_group["_iv"] = kind_group.apply(
+                lambda row: _solve_iv(row, kind), axis=1
+            )
+            kind_group = kind_group.dropna(subset=["_iv"])
+            if kind_group.empty:
+                continue
+
+            # ATM IV: strike closest to spot
+            atm_idx = (kind_group["strike"] - S).abs().idxmin()
+            atm_iv_val = float(kind_group.loc[atm_idx, "_iv"])
+
+            # Flag contracts where IV deviates from ATM IV by >= threshold pp
+            for _, row in kind_group.iterrows():
+                market_iv = float(row["_iv"])
+                iv_vs_atm  = (market_iv - atm_iv_val) * 100
+                iv_vs_hist = (market_iv - hist_vol_val) * 100
+
+                if abs(iv_vs_atm) < threshold:
+                    continue
+
+                signal = (
+                    "IV elevated vs ATM skew" if iv_vs_atm > 0
+                    else "IV depressed vs ATM skew"
+                )
+
+                results.append({
+                    "ticker":      symbol.upper(),
+                    "kind":        kind,
+                    "strike":      float(row["strike"]),
+                    "expiry_date": expiry_date,
+                    "expiry":      round(T, 4),
+                    "mid":         round(float(row["mid"]), 3),
+                    "market_iv":   round(market_iv * 100, 2),
+                    "atm_iv":      round(atm_iv_val * 100, 2),
+                    "hist_vol":    round(hist_vol_val * 100, 2),
+                    "iv_vs_atm":   round(iv_vs_atm, 2),
+                    "iv_vs_hist":  round(iv_vs_hist, 2),
+                    "signal":      signal,
+                })
+
+    if not results:
+        return pd.DataFrame()
 
     df = pd.DataFrame(results)
-    if df.empty:
-        return df
-
-    df = df.sort_values(["kind", "expiry", "strike"]).reset_index(drop=True)
+    df = df.sort_values(["expiry_date", "kind", "strike"]).reset_index(drop=True)
     return df
 
 
@@ -144,38 +190,43 @@ def write_csv(df: pd.DataFrame, path: str) -> None:
     df.to_csv(path, index=False)
 
 
-def write_markdown(df: pd.DataFrame, path: str, symbol: str, threshold: float) -> None:
-    """Write a markdown report split into calls and puts sections."""
+def write_markdown(
+    df: pd.DataFrame,
+    path: str,
+    symbol: str,
+    threshold: float,
+    hist_vol: float,
+) -> None:
     today = datetime.date.today().isoformat()
     lines = [
         f"# Options Mispricing Signal Report — {symbol}",
-        f"",
+        "",
         f"**Generated:** {today}  ",
-        f"**Threshold:** ±{threshold} percentage points vs 30-day historical vol  ",
-        f"**Historical Vol (30d):** {df['hist_vol'].iloc[0]:.2f}%  ",
-        f"",
+        f"**Method:** IV vs ATM IV per expiry (skew anomaly detection)  ",
+        f"**Threshold:** ±{threshold} percentage points vs ATM IV  ",
+        f"**Historical Vol (30d):** {hist_vol:.2f}%  ",
+        "",
     ]
 
-    flagged = df[df["signal"] != "—"]
-
-    if flagged.empty:
+    if df.empty:
         lines.append("No contracts exceeded the threshold today.")
     else:
         for kind in ("call", "put"):
-            subset = flagged[flagged["kind"] == kind]
+            subset = df[df["kind"] == kind]
             if subset.empty:
                 continue
-            lines.append(f"## {kind.capitalize()}s")
+            lines.append(f"## {kind.capitalize()}s ({len(subset)} flagged)")
             lines.append("")
-            lines.append("| Strike | Expiry | Mid | Market IV | Hist Vol | IV Premium | Signal |")
-            lines.append("|--------|--------|-----|-----------|----------|------------|--------|")
+            lines.append("| Strike | Expiry | Mid | Market IV | ATM IV | IV vs ATM | Hist Vol | Signal |")
+            lines.append("|--------|--------|-----|-----------|--------|-----------|----------|--------|")
             for _, row in subset.iterrows():
-                premium_str = f"+{row['iv_premium']:.2f}%" if row['iv_premium'] > 0 \
-                              else f"{row['iv_premium']:.2f}%"
+                vs_atm_str = f"+{row['iv_vs_atm']:.2f}%" if row["iv_vs_atm"] > 0 \
+                             else f"{row['iv_vs_atm']:.2f}%"
                 lines.append(
                     f"| {row['strike']:.0f} | {row['expiry_date']} | "
-                    f"{row['mid']:.3f} | {row['market_iv']:.2f}% | "
-                    f"{row['hist_vol']:.2f}% | {premium_str} | {row['signal']} |"
+                    f"{row['mid']:.2f} | {row['market_iv']:.2f}% | "
+                    f"{row['atm_iv']:.2f}% | {vs_atm_str} | "
+                    f"{row['hist_vol']:.2f}% | {row['signal']} |"
                 )
             lines.append("")
 
@@ -193,41 +244,45 @@ def write_markdown(df: pd.DataFrame, path: str, symbol: str, threshold: float) -
 
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Options mispricing scanner.")
-    p.add_argument("--ticker",    default="SPY")
-    p.add_argument("--chain",     default=None,  help="Path to existing chain CSV")
-    p.add_argument("--threshold", type=float, default=3.0,
-                   help="IV premium threshold in percentage points (default: 3.0)")
-    p.add_argument("--min-volume", type=int, default=10)
-    p.add_argument("--csv-out",   default="data/signals.csv")
-    p.add_argument("--md-out",    default="data/signals.md")
+    p.add_argument("--ticker",         default="SPY")
+    p.add_argument("--chain",          default=None)
+    p.add_argument("--threshold",      type=float, default=5.0,
+                   help="IV vs ATM IV threshold in pp (default: 5.0)")
+    p.add_argument("--min-volume",     type=int,   default=10)
+    p.add_argument("--min-mid",        type=float, default=0.50)
+    p.add_argument("--moneyness-band", type=float, default=0.15,
+                   help="Max |strike/spot - 1| to include (default: 0.15)")
+    p.add_argument("--csv-out",        default="data/signals.csv")
+    p.add_argument("--md-out",         default="data/signals.md")
     return p
 
 
 if __name__ == "__main__":
     args = _build_parser().parse_args()
-    print(f"Scanning {args.ticker} options chain (threshold: ±{args.threshold}pp)...")
+    print(f"Scanning {args.ticker} (threshold: ±{args.threshold}pp vs ATM IV) ...")
 
     df = scan(
         args.ticker,
         chain_path=args.chain,
         threshold=args.threshold,
         min_volume=args.min_volume,
+        min_mid=args.min_mid,
+        moneyness_band=args.moneyness_band,
     )
 
-    if df.empty:
-        print("No results — check chain file or filters.")
-    else:
-        flagged = df[df["signal"] != "—"]
-        print(f"Contracts scanned: {len(df):,}")
-        print(f"Flagged:           {len(flagged):,}")
-        print(f"  Calls:           {len(flagged[flagged['kind']=='call']):,}")
-        print(f"  Puts:            {len(flagged[flagged['kind']=='put']):,}")
-        print(f"Historical vol:    {df['hist_vol'].iloc[0]:.2f}%")
-        print()
-        if not flagged.empty:
-            print(flagged[["kind","strike","expiry_date","market_iv","hist_vol","iv_premium","signal"]].to_string(index=False))
+    hist_vol_pct = historical_vol(args.ticker) * 100
 
-        write_csv(df, args.csv_out)
-        write_markdown(df, args.md_out, args.ticker, args.threshold)
-        print(f"\nSaved: {args.csv_out}")
-        print(f"Saved: {args.md_out}")
+    if df.empty:
+        print("No contracts flagged — try lowering --threshold.")
+    else:
+        print(f"Flagged: {len(df):,} contracts")
+        print(f"  Calls: {len(df[df['kind']=='call']):,}")
+        print(f"  Puts:  {len(df[df['kind']=='put']):,}")
+        print(f"Historical vol (30d): {hist_vol_pct:.2f}%")
+        print()
+        print(df[["kind","strike","expiry_date","market_iv","atm_iv","iv_vs_atm","signal"]].to_string(index=False))
+
+    write_csv(df, args.csv_out)
+    write_markdown(df, args.md_out, args.ticker, args.threshold, hist_vol_pct)
+    print(f"\nSaved: {args.csv_out}")
+    print(f"Saved: {args.md_out}")

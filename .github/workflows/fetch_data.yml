@@ -44,7 +44,7 @@ jobs:
           PYTHONPATH=. python3 -m data.scanner \
             --ticker SPY \
             --chain data/sample_chain.csv \
-            --threshold 10.0 \
+            --threshold 5.0 \
             --csv-out data/signals.csv \
             --md-out data/signals.md
 
