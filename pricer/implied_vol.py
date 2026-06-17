@@ -36,15 +36,16 @@ Usage example
 from __future__ import annotations
 
 import warnings
-from collections.abc import Callable
+from typing import Callable
 
 import numpy as np
 import pandas as pd
-from scipy.interpolate import LinearNDInterpolator, RectBivariateSpline
 from scipy.optimize import brentq
+from scipy.interpolate import RectBivariateSpline, griddata
 
-from pricer.black_scholes import price as bs_price
 from pricer.models import OptionParams
+from pricer.black_scholes import price as bs_price
+
 
 # ---------------------------------------------------------------------------
 # Single-contract IV solver
@@ -215,18 +216,50 @@ def fit_surface(
     unique_T = np.sort(np.unique(T_vals))
     is_rect = len(unique_K) * len(unique_T) == len(df)
 
-    if is_rect and len(unique_K) >= 4 and len(unique_T) >= 4:
-        # Reshape IV onto (len(unique_T), len(unique_K)) grid
+    if is_rect and len(unique_K) >= 2 and len(unique_T) >= 2:
+        # Data already lies on a regular grid — reshape directly
         grid = np.full((len(unique_T), len(unique_K)), np.nan)
         K_idx = {k: i for i, k in enumerate(unique_K)}
         T_idx = {t: i for i, t in enumerate(unique_T)}
         for k, t, iv in zip(K_vals, T_vals, IV_vals):
             grid[T_idx[t], K_idx[k]] = iv
-        spline = RectBivariateSpline(unique_T, unique_K, grid, kx=3, ky=3)
+        kx = min(3, len(unique_T) - 1)
+        ky = min(3, len(unique_K) - 1)
+        spline = RectBivariateSpline(unique_T, unique_K, grid, kx=kx, ky=ky)
         interpolator = lambda K, T: spline(T, K, grid=False)  # noqa: E731
     else:
-        # Scattered interpolation
-        tri = LinearNDInterpolator(list(zip(K_vals, T_vals)), IV_vals)
-        interpolator = lambda K, T: tri(K, T)  # noqa: E731
+        # Scattered data — interpolate onto a regular grid first, then fit a
+        # smooth spline. This avoids the piecewise-linear artefacts of
+        # LinearNDInterpolator and gives a differentiable surface.
+        n_K = min(len(unique_K), 50)
+        n_T = min(len(unique_T), 20)
+        reg_K = np.linspace(unique_K.min(), unique_K.max(), n_K)
+        reg_T = np.linspace(unique_T.min(), unique_T.max(), n_T)
+        KK, TT = np.meshgrid(reg_K, reg_T)
+
+        # griddata fills the regular grid from scattered (K, T, IV) points
+        grid = griddata(
+            points=np.column_stack([K_vals, T_vals]),
+            values=IV_vals,
+            xi=np.column_stack([KK.ravel(), TT.ravel()]),
+            method="cubic",
+        ).reshape(n_T, n_K)
+
+        # Fill any remaining NaNs at the boundary with nearest-neighbour values
+        nan_mask = np.isnan(grid)
+        if nan_mask.any():
+            grid_nn = griddata(
+                points=np.column_stack([K_vals, T_vals]),
+                values=IV_vals,
+                xi=np.column_stack([KK.ravel(), TT.ravel()]),
+                method="nearest",
+            ).reshape(n_T, n_K)
+            grid[nan_mask] = grid_nn[nan_mask]
+
+        # Fit bicubic spline on the regular grid — order capped by grid size
+        kx = min(3, n_T - 1)
+        ky = min(3, n_K - 1)
+        spline = RectBivariateSpline(reg_T, reg_K, grid, kx=kx, ky=ky)
+        interpolator = lambda K, T: spline(T, K, grid=False)  # noqa: E731
 
     return df, interpolator
