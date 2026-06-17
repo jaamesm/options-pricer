@@ -3,7 +3,7 @@ name: Daily Data Fetch
 on:
   schedule:
     # 9:45 AM ET = 14:45 UTC (EST) or 13:45 UTC (EDT)
-    - cron: '45 14 * * 1-5'
+    - cron: '0 8 * * 1-5'  # 8:00 AM UTC, Monday through Friday
   workflow_dispatch:
 
 jobs:
