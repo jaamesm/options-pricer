@@ -163,6 +163,8 @@ Crank-Nicolson (θ = 0.5) splits each time step 50/50 between explicit and impli
 
 The IV solver inverts the Black-Scholes formula using **Brent's method** bracketed on σ ∈ [10⁻⁶, 10]. Brent's method is preferred over Newton-Raphson because it is guaranteed to converge within the bracket and avoids instability near zero vega (deep ITM / very short dated). No-arbitrage bounds are validated before entering the solver.
 
+The vol surface is fitted by first interpolating scattered chain data onto a regular (K, T) grid via cubic `griddata`, then fitting a bicubic spline — giving a smooth, differentiable surface rather than the piecewise-linear artefacts of direct scattered interpolation. Boundary NaNs are filled with nearest-neighbour values before spline fitting. The spline order degrades gracefully when the grid is small.
+
 ---
 
 ## Project Structure
