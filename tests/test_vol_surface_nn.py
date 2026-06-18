@@ -5,7 +5,7 @@ Run with: pytest tests/test_vol_surface_nn.py -v --cov=pricer.vol_surface_nn
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -13,7 +13,6 @@ import pytest
 import torch
 
 from pricer.vol_surface_nn import (
-    FEATURE_COLS,
     FEATURE_COLS_RATES,
     VolSurfaceNet,
     VolSurfaceTrainer,
@@ -27,7 +26,6 @@ from pricer.vol_surface_nn import (
     predict_surface,
     walk_forward_split,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

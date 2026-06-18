@@ -22,8 +22,8 @@ Typical workflow
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable, Sequence
 from pathlib import Path
-from typing import Callable, Sequence
 
 import matplotlib.pyplot as plt
 import numpy as np
