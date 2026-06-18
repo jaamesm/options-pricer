@@ -25,13 +25,15 @@ from pathlib import Path
 import pandas as pd
 
 
-TICKERS = ["SPY", "AAPL", "QQQ", "TSLA"]
+TICKERS = ["SPY", "AAPL", "QQQ", "TSLA", "NVDA", "GLD"]
 
 SIGNAL_FILES = {
     "SPY":  "data/spy_signals.csv",
     "AAPL": "data/aapl_signals.csv",
     "QQQ":  "data/qqq_signals.csv",
     "TSLA": "data/tsla_signals.csv",
+    "NVDA": "data/nvda_signals.csv",
+    "GLD":  "data/gld_signals.csv",
 }
 
 HISTORY_PATH = "data/skew_history.csv"

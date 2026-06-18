@@ -47,6 +47,13 @@ jobs:
       - name: Fetch TSLA chain
         run: PYTHONPATH=. python3 -m data.fetch --ticker TSLA --output data/tsla_chain.csv --min-volume 10
 
+      - name: Fetch NVDA chain
+        run: PYTHONPATH=. python3 -m data.fetch --ticker NVDA --output data/nvda_chain.csv --min-volume 10
+
+      - name: Fetch GLD chain
+        run: PYTHONPATH=. python3 -m data.fetch --ticker GLD --output data/gld_chain.csv --min-volume 10
+
+
       - name: Run SPY mispricing scanner
         run: |
           PYTHONPATH=. python3 -m data.scanner \
@@ -82,6 +89,24 @@ jobs:
             --threshold 5.0 \
             --csv-out data/tsla_signals.csv \
             --md-out data/tsla_signals.md
+
+      - name: Run NVDA mispricing scanner
+        run: |
+          PYTHONPATH=. python3 -m data.scanner \
+            --ticker NVDA \
+            --chain data/nvda_chain.csv \
+            --threshold 5.0 \
+            --csv-out data/nvda_signals.csv \
+            --md-out data/nvda_signals.md
+
+      - name: Run GLD mispricing scanner
+        run: |
+          PYTHONPATH=. python3 -m data.scanner \
+            --ticker GLD \
+            --chain data/gld_chain.csv \
+            --threshold 5.0 \
+            --csv-out data/gld_signals.csv \
+            --md-out data/gld_signals.md
 
       - name: Update skew history
         run: PYTHONPATH=. python3 -m data.track_skew
