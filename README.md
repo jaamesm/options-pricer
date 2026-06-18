@@ -58,7 +58,7 @@ Reference contract: `S=100, K=100, T=1yr, r=5%, σ=20%, q=0%`
 
 ## Live Market Data
 
-The library fetches real options chains from Yahoo Finance for four tickers — SPY, AAPL, QQQ, and TSLA — via a scheduled GitHub Actions pipeline that runs every weekday morning at 9:45am ET. Updated chain files are committed to the repo automatically, so the data is always current without manual intervention.
+The library fetches real options chains from Yahoo Finance for six tickers — SPY, AAPL, QQQ, TSLA, NVDA, and GLD — via a scheduled GitHub Actions pipeline that runs every weekday morning at 8:00am UTC. Updated chain files are committed to the repo automatically, so the data is always current without manual intervention.
 
 | Ticker | Description | Vol profile |
 |--------|-------------|-------------|
@@ -66,8 +66,10 @@ The library fetches real options chains from Yahoo Finance for four tickers — 
 | QQQ | Nasdaq-100 ETF | Moderate vol, put skew |
 | AAPL | Apple Inc. | Moderate vol, call skew (earnings speculation) |
 | TSLA | Tesla Inc. | High vol (~70% ATM IV), pronounced call skew |
+| NVDA | Nvidia Corp. | Very high vol, strong call skew (AI speculation) |
+| GLD | Gold ETF | Low-moderate vol, near-symmetric smile (safe haven asset) |
 
-The four tickers are chosen to span the volatility spectrum — from low-vol index ETFs to high-vol single stocks — producing meaningfully different implied volatility surfaces and skew profiles.
+The six tickers span the volatility spectrum — from low-vol index ETFs to high-vol single stocks and a commodity ETF — producing meaningfully different implied volatility surfaces and skew profiles.
 
 The risk-free rate is pulled automatically from the 13-week T-bill yield (^IRX) and the dividend yield from yfinance's trailing annual figure, so no manual inputs are required.
 
@@ -75,9 +77,11 @@ To fetch the latest data manually:
 
 ```bash
 PYTHONPATH=. python3 -m data.fetch --ticker SPY --output data/spy_chain.csv
-PYTHONPATH=. python3 -m data.fetch --ticker TSLA --output data/tsla_chain.csv
+PYTHONPATH=. python3 -m data.fetch --ticker NVDA --output data/nvda_chain.csv
+PYTHONPATH=. python3 -m data.fetch --ticker GLD --output data/gld_chain.csv
 ```
 
+---
 ---
 
 ## Mispricing Scanner
