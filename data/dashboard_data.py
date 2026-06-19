@@ -56,11 +56,12 @@ def price_and_change(symbol: str) -> tuple[float | None, float | None]:
             return None, None
         last = float(hist["Close"].iloc[-1])
         prev = float(hist["Close"].iloc[-2])
+        if not (np.isfinite(last) and np.isfinite(prev)) or prev == 0:
+            return None, None
         change_pct = (last / prev - 1.0) * 100
         return round(last, 2), round(change_pct, 2)
     except Exception:
         return None, None
-
 
 # ---------------------------------------------------------------------------
 # Historical volatility — today vs yesterday from a single fetch
@@ -157,6 +158,16 @@ def atm_and_skew_today_and_prior(symbol: str) -> dict:
 # Build
 # ---------------------------------------------------------------------------
 
+def _clean(value):
+    """Convert NaN/inf to None so the output is always valid JSON."""
+    if value is None:
+        return None
+    if isinstance(value, float) and not np.isfinite(value):
+        return None
+    return value
+
+
+def build_dashboard() -> dict:
 def build_dashboard() -> dict:
     tickers_out = []
     for symbol, name in TICKERS:
@@ -169,19 +180,19 @@ def build_dashboard() -> dict:
         )
         skew = atm_and_skew_today_and_prior(symbol)
 
-        tickers_out.append({
+	tickers_out.append({
             "symbol": symbol,
             "name": name,
-            "price": price,
-            "changePct": change_pct,
-            "atmIv": skew["atmIv"],
-            "atmIvChange": skew["atmIvChange"],
+            "price": _clean(price),
+            "changePct": _clean(change_pct),
+            "atmIv": _clean(skew["atmIv"]),
+            "atmIvChange": _clean(skew["atmIvChange"]),
             "skewType": skew["skewType"],
-            "skewValue": skew["skewValue"],
-            "skewChange": skew["skewChange"],
-            "histVol": vol_today,
-            "histVolChange": hist_vol_change,
-        })
+            "skewValue": _clean(skew["skewValue"]),
+            "skewChange": _clean(skew["skewChange"]),
+            "histVol": _clean(vol_today),
+            "histVolChange": _clean(hist_vol_change),
+        })        })
 
     return {
         "generated": date.today().isoformat(),
