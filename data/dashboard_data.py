@@ -63,6 +63,7 @@ def price_and_change(symbol: str) -> tuple[float | None, float | None]:
     except Exception:
         return None, None
 
+
 # ---------------------------------------------------------------------------
 # Historical volatility — today vs yesterday from a single fetch
 # ---------------------------------------------------------------------------
@@ -178,7 +179,8 @@ def build_dashboard() -> dict:
             else None
         )
         skew = atm_and_skew_today_and_prior(symbol)
-	tickers_out.append({
+
+        tickers_out.append({
             "symbol": symbol,
             "name": name,
             "price": _clean(price),
@@ -190,7 +192,7 @@ def build_dashboard() -> dict:
             "skewChange": _clean(skew["skewChange"]),
             "histVol": _clean(vol_today),
             "histVolChange": _clean(hist_vol_change),
-        })        })
+        })
 
     return {
         "generated": date.today().isoformat(),
