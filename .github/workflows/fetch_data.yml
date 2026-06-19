@@ -2,8 +2,7 @@ name: Daily Data Fetch
 
 on:
   schedule:
-    # 9:45 AM ET = 14:45 UTC (EST) or 13:45 UTC (EDT)
-    - cron: '0 8 * * 1-5'  # 8:00 AM UTC, Monday through Friday
+    - cron: '0 8 * * 1-5'
   workflow_dispatch:
 
 jobs:
@@ -52,7 +51,6 @@ jobs:
 
       - name: Fetch GLD chain
         run: PYTHONPATH=. python3 -m data.fetch --ticker GLD --output data/gld_chain.csv --min-volume 10
-
 
       - name: Run SPY mispricing scanner
         run: |
@@ -111,16 +109,24 @@ jobs:
       - name: Update skew history
         run: PYTHONPATH=. python3 -m data.track_skew
 
+      - name: Build dashboard data
+        run: PYTHONPATH=. python3 -m data.dashboard_data
+
+      - name: Publish dashboard data to GitHub Pages folder
+        run: |
+          mkdir -p docs/data
+          cp data/dashboard.json docs/data/dashboard.json
+
       - name: Check if data changed
         id: check
         run: |
-          git diff --quiet data/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --quiet data/ docs/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
 
-      - name: Commit updated chains and signals
+      - name: Commit updated chains, signals, and dashboard
         if: steps.check.outputs.changed == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/
-          git commit -m "chore: update options chains and signals $(date -u +'%Y-%m-%d')"
+          git add data/ docs/
+          git commit -m "chore: update options chains, signals, and dashboard $(date -u +'%Y-%m-%d')"
           git push
