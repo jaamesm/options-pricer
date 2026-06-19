@@ -1,0 +1,11 @@
+{
+  "generated": null,
+  "tickers": [
+    {"symbol": "SPY",  "name": "S&P 500 ETF",   "price": null, "changePct": null, "atmIv": null, "atmIvChange": null, "skewType": "put",  "skewValue": null, "skewChange": null, "histVol": null, "histVolChange": null},
+    {"symbol": "QQQ",  "name": "Nasdaq-100 ETF","price": null, "changePct": null, "atmIv": null, "atmIvChange": null, "skewType": "put",  "skewValue": null, "skewChange": null, "histVol": null, "histVolChange": null},
+    {"symbol": "AAPL", "name": "Apple Inc.",    "price": null, "changePct": null, "atmIv": null, "atmIvChange": null, "skewType": "call", "skewValue": null, "skewChange": null, "histVol": null, "histVolChange": null},
+    {"symbol": "TSLA", "name": "Tesla Inc.",    "price": null, "changePct": null, "atmIv": null, "atmIvChange": null, "skewType": "call", "skewValue": null, "skewChange": null, "histVol": null, "histVolChange": null},
+    {"symbol": "NVDA", "name": "Nvidia Corp.",  "price": null, "changePct": null, "atmIv": null, "atmIvChange": null, "skewType": "call", "skewValue": null, "skewChange": null, "histVol": null, "histVolChange": null},
+    {"symbol": "GLD",  "name": "Gold ETF",      "price": null, "changePct": null, "atmIv": null, "atmIvChange": null, "skewType": "put",  "skewValue": null, "skewChange": null, "histVol": null, "histVolChange": null}
+  ]
+}
