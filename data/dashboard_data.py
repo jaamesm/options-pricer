@@ -168,7 +168,6 @@ def _clean(value):
 
 
 def build_dashboard() -> dict:
-def build_dashboard() -> dict:
     tickers_out = []
     for symbol, name in TICKERS:
         price, change_pct = price_and_change(symbol)
@@ -179,7 +178,6 @@ def build_dashboard() -> dict:
             else None
         )
         skew = atm_and_skew_today_and_prior(symbol)
-
 	tickers_out.append({
             "symbol": symbol,
             "name": name,
