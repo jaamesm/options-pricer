@@ -43,8 +43,8 @@
     {
       "symbol": "TSLA",
       "name": "Tesla Inc.",
-      "price": null,
-      "changePct": null,
+      "price": 400.49,
+      "changePct": 1.04,
       "atmIv": 42.56,
       "atmIvChange": -2.61,
       "skewType": "call",
