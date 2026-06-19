@@ -232,7 +232,7 @@ function render() {
   const t = dashboardData.tickers[index];
   const meta = TICKERS[index];
 
-  document.getElementById("ticker-pill").textContent = `*${t.symbol} — ${meta.name}*`;
+  document.getElementById("ticker-pill").textContent = `${t.symbol} - ${meta.name}`;
 
   const regime = regimeFor(t.atmIvChange);
   document.getElementById("hero-label").textContent = `Today's ${t.symbol} vol is:`;
