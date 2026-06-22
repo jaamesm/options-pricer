@@ -1,16 +1,16 @@
 {
-  "generated": "2026-06-19",
+  "generated": "2026-06-22",
   "tickers": [
     {
       "symbol": "SPY",
       "name": "S&P 500 ETF",
       "price": 746.74,
       "changePct": 1.04,
-      "atmIv": 14.37,
-      "atmIvChange": 0.05,
+      "atmIv": 20.63,
+      "atmIvChange": 6.26,
       "skewType": "call",
-      "skewValue": 10.85,
-      "skewChange": 0.13,
+      "skewValue": 6.85,
+      "skewChange": -4.0,
       "histVol": 14.74,
       "histVolChange": -0.23
     },
@@ -71,11 +71,11 @@
       "name": "Gold ETF",
       "price": 387.12,
       "changePct": -0.38,
-      "atmIv": 24.09,
-      "atmIvChange": 0.95,
-      "skewType": "call",
-      "skewValue": 36.22,
-      "skewChange": 7.28,
+      "atmIv": 163.72,
+      "atmIvChange": 139.63,
+      "skewType": "put",
+      "skewValue": 0.0,
+      "skewChange": -6.83,
       "histVol": 25.07,
       "histVolChange": -1.81
     }
