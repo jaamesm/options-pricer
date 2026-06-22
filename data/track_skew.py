@@ -57,7 +57,11 @@ def summarise(signals_path: str, ticker: str, date: str) -> dict | None:
         print(f"  {ticker}: signals file not found at {signals_path}, skipping")
         return None
 
-    df = pd.read_csv(path)
+    try:
+        df = pd.read_csv(path)
+    except pd.errors.EmptyDataError:
+        df = pd.DataFrame()
+
     if df.empty:
         print(f"  {ticker}: no flagged contracts today")
         return {
