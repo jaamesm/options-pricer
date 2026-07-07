@@ -1,2 +1,2 @@
 ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-SPY,call,647.0,2027-03-31,0.7342,137.4,29.22,22.38,15.45,6.84,13.77,IV elevated vs ATM skew
+SPY,call,647.0,2027-03-31,0.7315,137.4,26.47,19.54,15.37,6.93,11.1,IV elevated vs ATM skew
