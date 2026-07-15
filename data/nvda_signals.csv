@@ -1,9 +1,1 @@
-ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-NVDA,call,175.0,2026-07-31,0.0466,29.525,49.54,41.81,44.32,7.73,5.22,IV elevated vs ATM skew
-NVDA,call,180.0,2026-07-31,0.0466,25.1,49.89,41.81,44.32,8.08,5.57,IV elevated vs ATM skew
-NVDA,put,175.0,2026-07-31,0.0466,0.665,49.06,41.44,44.32,7.62,4.74,IV elevated vs ATM skew
-NVDA,put,180.0,2026-07-31,0.0466,1.02,46.93,41.44,44.32,5.49,2.6,IV elevated vs ATM skew
-NVDA,call,175.0,2026-08-07,0.0658,30.25,49.27,41.35,44.32,7.91,4.94,IV elevated vs ATM skew
-NVDA,call,180.0,2026-08-07,0.0658,25.75,47.04,41.35,44.32,5.69,2.72,IV elevated vs ATM skew
-NVDA,put,175.0,2026-08-07,0.0658,1.06,46.61,40.41,44.32,6.2,2.29,IV elevated vs ATM skew
-NVDA,call,175.0,2026-08-21,0.1041,31.325,45.88,40.75,44.32,5.12,1.55,IV elevated vs ATM skew
+
