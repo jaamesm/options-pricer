@@ -1,1 +1,11 @@
-
+ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
+QQQ,put,615.0,2026-08-31,0.126,3.125,32.98,23.25,30.3,9.73,2.68,IV elevated vs ATM skew
+QQQ,put,620.0,2026-08-31,0.126,3.445,32.5,23.25,30.3,9.25,2.2,IV elevated vs ATM skew
+QQQ,put,625.0,2026-08-31,0.126,3.735,31.88,23.25,30.3,8.63,1.58,IV elevated vs ATM skew
+QQQ,put,630.0,2026-08-31,0.126,4.085,31.33,23.25,30.3,8.08,1.03,IV elevated vs ATM skew
+QQQ,put,635.0,2026-08-31,0.126,4.585,31.02,23.25,30.3,7.77,0.72,IV elevated vs ATM skew
+QQQ,put,640.0,2026-08-31,0.126,4.975,30.39,23.25,30.3,7.14,0.09,IV elevated vs ATM skew
+QQQ,put,645.0,2026-08-31,0.126,5.545,30.03,23.25,30.3,6.78,-0.27,IV elevated vs ATM skew
+QQQ,put,650.0,2026-08-31,0.126,6.04,29.44,23.25,30.3,6.19,-0.86,IV elevated vs ATM skew
+QQQ,put,655.0,2026-08-31,0.126,6.665,28.98,23.25,30.3,5.73,-1.32,IV elevated vs ATM skew
+QQQ,put,660.0,2026-08-31,0.126,7.415,28.61,23.25,30.3,5.36,-1.69,IV elevated vs ATM skew
