@@ -1,9 +1,9 @@
 # Options Mispricing Signal Report — TSLA
 
-**Generated:** 2026-07-16  
+**Generated:** 2026-07-17  
 **Method:** IV vs ATM IV per expiry (skew anomaly detection)  
 **Threshold:** ±5.0 percentage points vs ATM IV  
-**Historical Vol (30d):** 57.82%  
+**Historical Vol (30d):** 57.53%  
 
 No contracts exceeded the threshold today.
 ---
