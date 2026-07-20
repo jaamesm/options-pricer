@@ -295,7 +295,7 @@ function render() {
   const histVal  = t.histVol !== null ? `${t.histVol.toFixed(1)}%` : "—";
 
   document.getElementById("rows").innerHTML =
-    makeRow("PRICE", priceVal, arrow(t.changePct, 0.05), priceColor(t.changePct, 0.05), fmtPct(t.changePct), priceColor(t.changePct, 0.05)) +
+    makeRow("YEST. CLOSE", priceVal, arrow(t.changePct, 0.05), priceColor(t.changePct, 0.05), fmtPct(t.changePct), priceColor(t.changePct, 0.05)) +
     makeRow("ATM IV", atmVal, arrow(t.atmIvChange, 0.1), volColor(t.atmIvChange, 0.1), fmtPp(t.atmIvChange), volColor(t.atmIvChange, 0.1)) +
     makeRow(skewLabel, skewVal, arrow(t.skewChange, 0.1), volColor(t.skewChange, 0.1), fmtPp(t.skewChange), volColor(t.skewChange, 0.1)) +
     makeRow("HIST VOL (30D)", histVal, arrow(t.histVolChange, 0.1), volColor(t.histVolChange, 0.1), fmtPp(t.histVolChange), volColor(t.histVolChange, 0.1));
