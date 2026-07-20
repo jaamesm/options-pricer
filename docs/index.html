@@ -6,7 +6,7 @@
 <title>Vol Terminal — options-pricer</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
- 
+
   :root {
     --green: #29D67B;
     --red: #FF5C57;
@@ -16,9 +16,9 @@
     --text: #ECECEC;
     --faint: #3A3A3A;
   }
- 
+
   * { box-sizing: border-box; }
- 
+
   body {
     margin: 0;
     background: #000;
@@ -28,13 +28,13 @@
     justify-content: center;
     min-height: 100vh;
   }
- 
+
   .wrap {
     width: 100%;
     max-width: 420px;
     padding: 40px 24px 48px;
   }
- 
+
   .top-row {
     display: flex;
     justify-content: space-between;
@@ -42,16 +42,16 @@
     margin-bottom: 32px;
     font-size: 14px;
   }
- 
+
   .pill-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 40px;
   }
- 
+
   .pill-wrap { position: relative; flex: 1; margin: 0 8px; }
- 
+
   .pill {
     width: 100%;
     border: 1px solid var(--hairline);
@@ -65,7 +65,7 @@
     cursor: pointer;
   }
   .pill:hover { border-color: var(--dim); }
- 
+
   .dropdown {
     position: absolute;
     top: calc(100% + 6px);
@@ -86,7 +86,7 @@
   }
   .dropdown-item:last-child { border-bottom: none; }
   .dropdown-item:hover { background: #141414; }
- 
+
   button.icon-btn {
     background: none;
     border: none;
@@ -97,9 +97,9 @@
     font-family: inherit;
   }
   button.icon-btn:hover { color: var(--text); }
- 
+
   .icon-group { display: flex; align-items: center; gap: 2px; }
- 
+
   .info-box {
     font-size: 12px;
     color: var(--dim);
@@ -111,15 +111,15 @@
   }
   .info-box a { color: var(--dim); }
   .hidden { display: none; }
- 
+
   .hero-label { font-size: 20px; margin-bottom: 4px; }
   .hero-word { font-size: 56px; font-weight: 700; line-height: 1.05; margin-bottom: 2px; }
   .hero-vs { font-size: 20px; margin-bottom: 24px; }
   .hero-sub { font-size: 15px; margin-bottom: 4px; color: var(--text); }
   .hero-note { font-size: 15px; color: var(--dim); margin-bottom: 40px; }
- 
+
   .divider { border-top: 1px solid var(--hairline); margin-bottom: 4px; }
- 
+
   .row {
     display: flex;
     align-items: center;
@@ -128,7 +128,7 @@
     border-bottom: 1px solid var(--hairline);
   }
   .row:last-of-type { border-bottom: none; }
- 
+
   .row-label {
     font-size: 11px;
     letter-spacing: 0.04em;
@@ -138,14 +138,14 @@
   .row-value-group { display: flex; align-items: center; gap: 8px; width: 34%; }
   .row-value { font-size: 17px; }
   .row-delta { width: 34%; text-align: right; font-size: 14px; }
- 
+
   .dots { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
   .dot {
     width: 6px; height: 6px; border-radius: 50%;
     background: var(--faint); cursor: pointer; border: none;
   }
   .dot.active { width: 8px; height: 8px; background: var(--text); }
- 
+
   .footer-note {
     text-align: center;
     font-size: 11px;
@@ -153,54 +153,58 @@
     margin-top: 10px;
   }
   .footer-note:first-of-type { margin-top: 24px; }
- 
+
+  #swipe-area { touch-action: pan-y; }
+
   .blink { animation: blink 1s step-start infinite; }
   @keyframes blink { 50% { opacity: 0; } }
 </style>
 </head>
 <body>
- 
+
 <div class="wrap">
   <div class="top-row">
     <span id="clock">--:--:--<span class="blink" style="color: var(--dim);"> _</span></span>
     <span id="market-status" style="color: var(--dim);">○ MARKET CLOSED</span>
   </div>
- 
+
   <div class="pill-row">
     <button class="icon-btn" onclick="cycle(-1)" aria-label="Previous">‹</button>
- 
+
     <div class="pill-wrap">
       <button class="pill" id="ticker-pill" onclick="toggleDropdown(event)">— Loading —</button>
       <div class="dropdown hidden" id="ticker-dropdown"></div>
     </div>
- 
+
     <div class="icon-group">
       <button class="icon-btn" onclick="reloadData()" aria-label="Refresh">↻</button>
       <button class="icon-btn" onclick="toggleInfo()" aria-label="Info">···</button>
       <button class="icon-btn" onclick="cycle(1)" aria-label="Next">›</button>
     </div>
   </div>
- 
+
   <div class="info-box hidden" id="info-box">
     Live data, refreshed daily at 08:00 UTC via GitHub Actions.<br>
     Source: <a href="https://github.com/jaamesm/options-pricer" target="_blank">github.com/jaamesm/options-pricer</a><br>
     Last updated: <span id="last-updated">—</span>
   </div>
- 
-  <div id="hero">
-    <div class="hero-label" id="hero-label">Today's — vol is:</div>
-    <div class="hero-word" id="hero-word" style="color: var(--amber);">—</div>
-    <div class="hero-vs">vs. yesterday</div>
-    <div class="hero-sub" id="hero-sub">Currently, ATM IV is —</div>
-    <div class="hero-note" id="hero-note">Loading latest data...</div>
+
+  <div id="swipe-area">
+    <div id="hero">
+      <div class="hero-label" id="hero-label">Today's — vol is:</div>
+      <div class="hero-word" id="hero-word" style="color: var(--amber);">—</div>
+      <div class="hero-vs">vs. yesterday</div>
+      <div class="hero-sub" id="hero-sub">Currently, ATM IV is —</div>
+      <div class="hero-note" id="hero-note">Loading latest data...</div>
+    </div>
+
+    <div class="divider"></div>
+    <div id="rows"></div>
   </div>
- 
-  <div class="divider"></div>
-  <div id="rows"></div>
- 
+
   <div class="dots" id="dots"></div>
- 
-  <div class="footer-note">data refreshed daily at 08:00 UTC</div>
+
+  <div class="footer-note">data refreshed nightly</div>
   <div class="footer-note">built and maintained by James Murphy</div>
   <div class="footer-note">
     get in touch:
@@ -210,7 +214,7 @@
     </a>
   </div>
 </div>
- 
+
 <script>
 const TICKERS = [
   { symbol: "SPY",  name: "S&P 500 ETF" },
@@ -220,12 +224,12 @@ const TICKERS = [
   { symbol: "NVDA", name: "Nvidia Corp." },
   { symbol: "GLD",  name: "Gold ETF" },
 ];
- 
+
 const GREEN = "#29D67B", RED = "#FF5C57", AMBER = "#E8B339", DIM = "#6B6B6B";
- 
+
 let dashboardData = null;
 let index = 0;
- 
+
 function fmtPct(x) {
   if (x === null || x === undefined) return "—";
   return (x >= 0 ? "+" : "") + x.toFixed(2) + "%";
@@ -255,7 +259,7 @@ function regimeFor(atmIvChange) {
   if (atmIvChange < -1) return { word: "LOWER", color: GREEN };
   return { word: "STEADY", color: AMBER };
 }
- 
+
 function makeRow(label, value, dir, dirColor, delta, deltaColor) {
   return `
     <div class="row">
@@ -267,14 +271,14 @@ function makeRow(label, value, dir, dirColor, delta, deltaColor) {
       <div class="row-delta" style="color:${deltaColor}">${delta}</div>
     </div>`;
 }
- 
+
 function render() {
   if (!dashboardData) return;
   const t = dashboardData.tickers[index];
   const meta = TICKERS[index];
- 
+
   document.getElementById("ticker-pill").textContent = `${t.symbol} — ${meta.name}`;
- 
+
   const regime = regimeFor(t.atmIvChange);
   document.getElementById("hero-label").textContent = `Today's ${t.symbol} vol is:`;
   const heroWord = document.getElementById("hero-word");
@@ -283,33 +287,33 @@ function render() {
   document.getElementById("hero-sub").textContent =
     t.atmIv !== null ? `Currently, ATM IV is ${t.atmIv.toFixed(1)}%` : "ATM IV unavailable";
   document.getElementById("hero-note").textContent = noteFor(t);
- 
+
   const priceVal = t.price !== null ? `$${t.price.toFixed(2)}` : "—";
   const atmVal   = t.atmIv !== null ? `${t.atmIv.toFixed(1)}%` : "—";
   const skewLabel = `${t.skewType.toUpperCase()} SKEW`;
   const skewVal  = t.skewValue !== null ? `${t.skewValue.toFixed(1)}pp` : "—";
   const histVal  = t.histVol !== null ? `${t.histVol.toFixed(1)}%` : "—";
- 
+
   document.getElementById("rows").innerHTML =
     makeRow("PRICE", priceVal, arrow(t.changePct, 0.05), priceColor(t.changePct, 0.05), fmtPct(t.changePct), priceColor(t.changePct, 0.05)) +
     makeRow("ATM IV", atmVal, arrow(t.atmIvChange, 0.1), volColor(t.atmIvChange, 0.1), fmtPp(t.atmIvChange), volColor(t.atmIvChange, 0.1)) +
     makeRow(skewLabel, skewVal, arrow(t.skewChange, 0.1), volColor(t.skewChange, 0.1), fmtPp(t.skewChange), volColor(t.skewChange, 0.1)) +
     makeRow("HIST VOL (30D)", histVal, arrow(t.histVolChange, 0.1), volColor(t.histVolChange, 0.1), fmtPp(t.histVolChange), volColor(t.histVolChange, 0.1));
- 
+
   document.getElementById("dots").innerHTML = TICKERS.map((tk, i) =>
     `<button class="dot ${i === index ? 'active' : ''}" onclick="selectTicker(${i})" aria-label="Show ${tk.symbol}"></button>`
   ).join("");
- 
+
   document.getElementById("last-updated").textContent = dashboardData.generated || "—";
 }
- 
+
 function noteFor(t) {
   if (t.atmIv === null) return "Awaiting first pipeline run.";
   const dominant = t.skewType === "put" ? "Put skew" : "Call skew";
   const direction = t.skewChange > 0.5 ? "widening" : t.skewChange < -0.5 ? "narrowing" : "steady";
   return `${dominant} ${direction} vs. yesterday.`;
 }
- 
+
 function cycle(delta) {
   index = (index + delta + TICKERS.length) % TICKERS.length;
   render();
@@ -325,7 +329,7 @@ function toggleInfo() {
 function reloadData() {
   loadDashboard();
 }
- 
+
 function buildDropdown() {
   document.getElementById("ticker-dropdown").innerHTML = TICKERS.map((tk, i) =>
     `<div class="dropdown-item" onclick="selectTicker(${i}); closeDropdown();">${tk.symbol} — ${tk.name}</div>`
@@ -345,14 +349,14 @@ document.addEventListener("click", (e) => {
     dd.classList.add("hidden");
   }
 });
- 
+
 function updateClock() {
   const now = new Date();
   const hh = String(now.getHours()).padStart(2, "0");
   const mm = String(now.getMinutes()).padStart(2, "0");
   const ss = String(now.getSeconds()).padStart(2, "0");
   document.getElementById("clock").innerHTML = `${hh}:${mm}:${ss}<span class="blink" style="color: var(--dim);"> _</span>`;
- 
+
   // Rough US market-hours check (9:30-16:00 ET) — approximate, ignores DST edge cases
   const etHour = (now.getUTCHours() - 5 + 24) % 24;
   const day = now.getUTCDay();
@@ -361,7 +365,7 @@ function updateClock() {
   statusEl.textContent = open ? "● MARKET OPEN" : "○ MARKET CLOSED";
   statusEl.style.color = open ? GREEN : DIM;
 }
- 
+
 async function loadDashboard() {
   try {
     const res = await fetch("data/dashboard.json?_=" + Date.now());
@@ -371,13 +375,37 @@ async function loadDashboard() {
     document.getElementById("hero-note").textContent = "Could not load dashboard data.";
   }
 }
- 
+
 buildDropdown();
 setInterval(updateClock, 1000);
 updateClock();
 loadDashboard();
+
+// Swipe left/right on the price/IV/skew/hist-vol area to switch tickers
+const swipeArea = document.getElementById("swipe-area");
+let touchStartX = 0;
+let touchStartY = 0;
+
+swipeArea.addEventListener("touchstart", (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+swipeArea.addEventListener("touchend", (e) => {
+  const dx = e.changedTouches[0].screenX - touchStartX;
+  const dy = e.changedTouches[0].screenY - touchStartY;
+  const SWIPE_THRESHOLD = 40;
+
+  // Ignore mostly-vertical swipes (scrolling)
+  if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+
+  if (dx < 0) {
+    cycle(1);   // swipe left -> next ticker
+  } else {
+    cycle(-1);  // swipe right -> previous ticker
+  }
+}, { passive: true });
 </script>
- 
+
 </body>
 </html>
- 
