@@ -1,7 +1,6 @@
 ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-GLD,call,322.0,2026-09-18,0.1644,80.875,96.38,35.69,28.49,60.69,67.88,IV elevated vs ATM skew
-GLD,call,315.0,2026-09-30,0.1973,154.3,214.58,188.2,28.49,26.38,186.09,IV elevated vs ATM skew
-GLD,call,327.0,2026-09-30,0.1973,97.975,122.21,188.2,28.49,-65.99,93.72,IV depressed vs ATM skew
-GLD,call,328.0,2026-09-30,0.1973,142.05,200.97,188.2,28.49,12.76,172.47,IV elevated vs ATM skew
-GLD,call,329.0,2026-09-30,0.1973,96.3,120.97,188.2,28.49,-67.23,92.48,IV depressed vs ATM skew
-GLD,put,409.0,2027-03-31,0.6959,33.35,10.26,22.54,28.49,-12.28,-18.23,IV depressed vs ATM skew
+GLD,call,322.0,2026-09-18,0.1616,80.875,98.36,37.36,28.28,61.0,70.08,IV elevated vs ATM skew
+GLD,call,315.0,2026-09-30,0.1945,154.3,217.26,195.43,28.28,21.83,188.98,IV elevated vs ATM skew
+GLD,call,328.0,2026-09-30,0.1945,142.05,203.47,195.43,28.28,8.04,175.19,IV elevated vs ATM skew
+GLD,call,329.0,2026-09-30,0.1945,96.3,122.82,195.43,28.28,-72.6,94.54,IV depressed vs ATM skew
+GLD,put,409.0,2027-03-31,0.6932,33.35,9.39,22.18,28.28,-12.79,-18.9,IV depressed vs ATM skew
