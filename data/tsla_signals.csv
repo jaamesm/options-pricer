@@ -1,1 +1,2 @@
-
+ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
+TSLA,call,320.0,2026-08-07,0.0438,57.95,63.7,54.77,54.05,8.93,9.65,IV elevated vs ATM skew
