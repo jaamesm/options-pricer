@@ -23,7 +23,7 @@ Output
 from __future__ import annotations
 
 import json
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import numpy as np
@@ -195,7 +195,7 @@ def build_dashboard() -> dict:
         })
 
     return {
-        "generated": date.today().isoformat(),
+        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "tickers": tickers_out,
     }
 
