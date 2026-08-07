@@ -1,9 +1,9 @@
 # Options Mispricing Signal Report — NVDA
 
-**Generated:** 2026-08-06  
+**Generated:** 2026-08-07  
 **Method:** IV vs ATM IV per expiry (skew anomaly detection)  
 **Threshold:** ±5.0 percentage points vs ATM IV  
-**Historical Vol (30d):** 39.24%  
+**Historical Vol (30d):** 39.18%  
 
 No contracts exceeded the threshold today.
 ---
