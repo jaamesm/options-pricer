@@ -1,6 +1,6 @@
 ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-GLD,put,416.0,2026-12-31,0.4,33.975,22.3,34.15,22.65,-11.85,-0.35,IV depressed vs ATM skew
-GLD,put,431.0,2026-12-31,0.4,60.95,40.18,34.15,22.65,6.03,17.53,IV elevated vs ATM skew
-GLD,put,432.0,2026-12-31,0.4,62.175,40.76,34.15,22.65,6.61,18.11,IV elevated vs ATM skew
-GLD,put,433.0,2026-12-31,0.4,62.95,40.86,34.15,22.65,6.71,18.22,IV elevated vs ATM skew
-GLD,put,413.0,2027-03-31,0.6466,48.95,33.02,22.4,22.65,10.62,10.37,IV elevated vs ATM skew
+GLD,put,416.0,2026-12-31,0.3918,33.975,27.61,39.94,23.3,-12.33,4.31,IV depressed vs ATM skew
+GLD,put,431.0,2026-12-31,0.3918,60.95,45.52,39.94,23.3,5.58,22.22,IV elevated vs ATM skew
+GLD,put,432.0,2026-12-31,0.3918,62.175,46.12,39.94,23.3,6.18,22.82,IV elevated vs ATM skew
+GLD,put,433.0,2026-12-31,0.3918,62.95,46.26,39.94,23.3,6.31,22.95,IV elevated vs ATM skew
+GLD,put,413.0,2027-03-31,0.6384,48.95,36.5,25.89,23.3,10.61,13.2,IV elevated vs ATM skew
