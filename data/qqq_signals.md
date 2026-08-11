@@ -1,9 +1,9 @@
 # Options Mispricing Signal Report — QQQ
 
-**Generated:** 2026-08-10  
+**Generated:** 2026-08-11  
 **Method:** IV vs ATM IV per expiry (skew anomaly detection)  
 **Threshold:** ±5.0 percentage points vs ATM IV  
-**Historical Vol (30d):** 25.69%  
+**Historical Vol (30d):** 25.36%  
 
 No contracts exceeded the threshold today.
 ---
