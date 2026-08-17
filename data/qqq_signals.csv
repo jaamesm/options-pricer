@@ -1,2 +1,1 @@
-ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-QQQ,put,835.0,2026-08-31,0.0466,140.265,118.23,50.37,23.74,67.86,94.49,IV elevated vs ATM skew
+
