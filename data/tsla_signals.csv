@@ -1,1 +1,9 @@
-
+ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
+TSLA,call,320.0,2026-09-11,0.0411,36.1,21.8,36.69,59.67,-14.9,-37.87,IV depressed vs ATM skew
+TSLA,call,330.0,2026-09-11,0.0411,27.275,31.16,36.69,59.67,-5.54,-28.51,IV depressed vs ATM skew
+TSLA,call,405.0,2026-09-11,0.0411,0.965,42.43,36.69,59.67,5.73,-17.24,IV elevated vs ATM skew
+TSLA,call,310.0,2026-09-18,0.0603,46.575,30.62,37.79,59.67,-7.17,-29.05,IV depressed vs ATM skew
+TSLA,call,320.0,2026-09-18,0.0603,37.3,31.82,37.79,59.67,-5.97,-27.85,IV depressed vs ATM skew
+TSLA,put,390.0,2026-09-18,0.0603,38.75,46.51,41.44,59.67,5.07,-13.16,IV elevated vs ATM skew
+TSLA,put,400.0,2026-09-18,0.0603,47.85,50.06,41.44,59.67,8.62,-9.61,IV elevated vs ATM skew
+TSLA,put,405.0,2026-09-18,0.0603,52.375,51.28,41.44,59.67,9.84,-8.39,IV elevated vs ATM skew
