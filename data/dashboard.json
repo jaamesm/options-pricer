@@ -1,83 +1,83 @@
 {
-  "generated": "2026-08-31 15:46 UTC",
+  "generated": "2026-09-01 12:59 UTC",
   "tickers": [
     {
       "symbol": "SPY",
       "name": "S&P 500 ETF",
-      "price": 765.94,
-      "changePct": -0.44,
+      "price": 767.05,
+      "changePct": -0.3,
       "atmIv": 13.19,
       "atmIvChange": 0.03,
       "skewType": "call",
       "skewValue": 8.2,
       "skewChange": 1.16,
-      "histVol": 11.96,
-      "histVolChange": 0.09
+      "histVol": 11.91,
+      "histVolChange": 0.04
     },
     {
       "symbol": "QQQ",
       "name": "Nasdaq-100 ETF",
-      "price": 714.66,
-      "changePct": -0.25,
+      "price": 716.76,
+      "changePct": 0.05,
       "atmIv": 17.68,
       "atmIvChange": 0.2,
       "skewType": "call",
       "skewValue": 9.37,
       "skewChange": 2.45,
-      "histVol": 20.95,
-      "histVolChange": 0.02
+      "histVol": 20.93,
+      "histVolChange": 0.0
     },
     {
       "symbol": "AAPL",
       "name": "Apple Inc.",
-      "price": 314.82,
-      "changePct": -1.53,
+      "price": 316.85,
+      "changePct": -0.89,
       "atmIv": 24.94,
       "atmIvChange": 0.62,
       "skewType": "call",
       "skewValue": 9.38,
       "skewChange": 0.0,
-      "histVol": 30.41,
-      "histVolChange": -0.31
+      "histVol": 30.21,
+      "histVolChange": -0.51
     },
     {
       "symbol": "TSLA",
       "name": "Tesla Inc.",
-      "price": 365.56,
-      "changePct": 4.82,
+      "price": 367.95,
+      "changePct": 5.51,
       "atmIv": 38.47,
       "atmIvChange": 0.68,
       "skewType": "put",
       "skewValue": 8.25,
       "skewChange": 0.41,
-      "histVol": 60.48,
-      "histVolChange": 1.13
+      "histVol": 60.96,
+      "histVolChange": 1.61
     },
     {
       "symbol": "NVDA",
       "name": "Nvidia Corp.",
-      "price": 219.93,
-      "changePct": 1.09,
+      "price": 220.78,
+      "changePct": 1.48,
       "atmIv": 31.26,
       "atmIvChange": -2.02,
       "skewType": "call",
       "skewValue": 7.64,
       "skewChange": 0.0,
-      "histVol": 44.77,
-      "histVolChange": 0.07
+      "histVol": 44.84,
+      "histVolChange": 0.14
     },
     {
       "symbol": "GLD",
       "name": "Gold ETF",
-      "price": 406.26,
-      "changePct": -0.64,
-      "atmIv": 22.59,
-      "atmIvChange": -1.74,
+      "price": 408.42,
+      "changePct": -0.11,
+      "atmIv": 30.5,
+      "atmIvChange": 7.91,
       "skewType": "call",
-      "skewValue": 8.97,
-      "skewChange": 0.97,
-      "histVol": 25.82,
-      "histVolChange": 0.11
+      "skewValue": 0.0,
+      "skewChange": -8.97,
+      "histVol": 25.69,
+      "histVolChange": -0.02
     }
   ]
 }

@@ -1,11 +1,1 @@
-ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-AAPL,call,270.0,2026-09-18,0.0493,46.025,45.62,25.38,30.42,20.24,15.2,IV elevated vs ATM skew
-AAPL,call,275.0,2026-09-18,0.0493,40.575,34.72,25.38,30.42,9.34,4.3,IV elevated vs ATM skew
-AAPL,call,280.0,2026-09-18,0.0493,36.075,37.3,25.38,30.42,11.92,6.89,IV elevated vs ATM skew
-AAPL,call,285.0,2026-09-18,0.0493,30.95,31.57,25.38,30.42,6.19,1.16,IV elevated vs ATM skew
-AAPL,call,295.0,2026-09-25,0.0685,23.0,29.75,24.73,30.42,5.02,-0.67,IV elevated vs ATM skew
-AAPL,put,280.0,2026-09-25,0.0685,0.555,28.98,23.69,30.42,5.29,-1.44,IV elevated vs ATM skew
-AAPL,call,280.0,2026-10-02,0.0877,37.4,34.59,24.96,30.42,9.64,4.17,IV elevated vs ATM skew
-AAPL,call,275.0,2026-10-16,0.126,42.75,32.24,24.92,30.42,7.32,1.82,IV elevated vs ATM skew
-AAPL,call,280.0,2026-10-16,0.126,38.025,30.31,24.92,30.42,5.39,-0.11,IV elevated vs ATM skew
-AAPL,put,270.0,2026-10-16,0.126,0.835,29.16,23.67,30.42,5.49,-1.26,IV elevated vs ATM skew
+
