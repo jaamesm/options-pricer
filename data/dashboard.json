@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-07 13:54 UTC",
+  "generated": "2026-09-08 12:33 UTC",
   "tickers": [
     {
       "symbol": "SPY",
@@ -71,11 +71,11 @@
       "name": "Gold ETF",
       "price": 406.77,
       "changePct": -0.84,
-      "atmIv": 25.31,
-      "atmIvChange": -5.95,
-      "skewType": "put",
-      "skewValue": 12.48,
-      "skewChange": 18.87,
+      "atmIv": 30.3,
+      "atmIvChange": 4.99,
+      "skewType": "call",
+      "skewValue": 0.0,
+      "skewChange": -7.7,
       "histVol": 26.78,
       "histVolChange": 0.21
     }
