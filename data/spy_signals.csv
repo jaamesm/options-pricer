@@ -1,1 +1,2 @@
-
+ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
+SPY,call,668.0,2027-03-31,0.5562,110.05,12.27,23.85,11.87,-11.58,0.4,IV depressed vs ATM skew
