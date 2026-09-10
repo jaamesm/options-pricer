@@ -1,9 +1,9 @@
 # Options Mispricing Signal Report — AAPL
 
-**Generated:** 2026-09-09  
+**Generated:** 2026-09-10  
 **Method:** IV vs ATM IV per expiry (skew anomaly detection)  
 **Threshold:** ±5.0 percentage points vs ATM IV  
-**Historical Vol (30d):** 30.05%  
+**Historical Vol (30d):** 29.86%  
 
 No contracts exceeded the threshold today.
 ---
