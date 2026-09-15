@@ -1,36 +1,36 @@
 {
-  "generated": "2026-09-14 14:40 UTC",
+  "generated": "2026-09-15 13:05 UTC",
   "tickers": [
     {
       "symbol": "SPY",
       "name": "S&P 500 ETF",
-      "price": 758.35,
-      "changePct": -0.78,
+      "price": 760.88,
+      "changePct": -0.45,
       "atmIv": 14.9,
       "atmIvChange": -8.95,
       "skewType": "call",
       "skewValue": 9.99,
       "skewChange": 21.57,
-      "histVol": 10.51,
-      "histVolChange": 0.13
+      "histVol": 10.33,
+      "histVolChange": -0.05
     },
     {
       "symbol": "QQQ",
       "name": "Nasdaq-100 ETF",
-      "price": 704.92,
-      "changePct": -1.39,
+      "price": 709.18,
+      "changePct": -0.8,
       "atmIv": 19.49,
       "atmIvChange": 0.35,
       "skewType": "call",
       "skewValue": 10.66,
       "skewChange": 3.87,
-      "histVol": 16.87,
-      "histVolChange": 0.52
+      "histVol": 16.5,
+      "histVolChange": 0.15
     },
     {
       "symbol": "AAPL",
       "name": "Apple Inc.",
-      "price": 333.07,
+      "price": 333.08,
       "changePct": 0.24,
       "atmIv": 24.98,
       "atmIvChange": -1.35,
@@ -43,41 +43,41 @@
     {
       "symbol": "TSLA",
       "name": "Tesla Inc.",
-      "price": 358.09,
-      "changePct": -2.01,
+      "price": 358.97,
+      "changePct": -1.77,
       "atmIv": 40.46,
       "atmIvChange": 1.99,
       "skewType": "call",
       "skewValue": 7.17,
       "skewChange": 10.93,
-      "histVol": 45.26,
-      "histVolChange": 0.62
+      "histVol": 45.15,
+      "histVolChange": 0.51
     },
     {
       "symbol": "NVDA",
       "name": "Nvidia Corp.",
-      "price": 210.56,
-      "changePct": -3.54,
+      "price": 210.96,
+      "changePct": -3.36,
       "atmIv": 34.01,
       "atmIvChange": -1.56,
       "skewType": "put",
       "skewValue": 6.6,
       "skewChange": 0.31,
-      "histVol": 42.24,
-      "histVolChange": 0.85
+      "histVol": 42.1,
+      "histVolChange": 0.71
     },
     {
       "symbol": "GLD",
       "name": "Gold ETF",
-      "price": 391.52,
-      "changePct": -1.82,
-      "atmIv": 23.75,
-      "atmIvChange": 5.68,
+      "price": 392.84,
+      "changePct": -1.49,
+      "atmIv": 17.17,
+      "atmIvChange": -6.58,
       "skewType": "call",
-      "skewValue": 31.54,
-      "skewChange": 0.0,
-      "histVol": 27.54,
-      "histVolChange": 0.19
+      "skewValue": 270.73,
+      "skewChange": 239.19,
+      "histVol": 27.35,
+      "histVolChange": 0.0
     }
   ]
 }
