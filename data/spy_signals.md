@@ -1,9 +1,9 @@
 # Options Mispricing Signal Report — SPY
 
-**Generated:** 2026-09-23  
+**Generated:** 2026-09-24  
 **Method:** IV vs ATM IV per expiry (skew anomaly detection)  
 **Threshold:** ±5.0 percentage points vs ATM IV  
-**Historical Vol (30d):** 9.70%  
+**Historical Vol (30d):** 9.88%  
 
 No contracts exceeded the threshold today.
 ---
