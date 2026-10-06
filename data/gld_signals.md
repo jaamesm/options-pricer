@@ -1,44 +1,42 @@
 # Options Mispricing Signal Report — GLD
 
-**Generated:** 2026-10-05  
+**Generated:** 2026-10-06  
 **Method:** IV vs ATM IV per expiry (skew anomaly detection)  
 **Threshold:** ±5.0 percentage points vs ATM IV  
-**Historical Vol (30d):** 23.10%  
+**Historical Vol (30d):** 22.92%  
 
 ## Calls (1 flagged)
 
 | Strike | Expiry | Mid | Market IV | ATM IV | IV vs ATM | Hist Vol | Signal |
 |--------|--------|-----|-----------|--------|-----------|----------|--------|
-| 330 | 2026-11-20 | 51.40 | 27.57% | 21.39% | +6.19% | 23.10% | IV elevated vs ATM skew |
+| 325 | 2026-12-31 | 61.05 | 28.41% | 21.03% | +7.39% | 22.92% | IV elevated vs ATM skew |
 
-## Puts (24 flagged)
+## Puts (22 flagged)
 
 | Strike | Expiry | Mid | Market IV | ATM IV | IV vs ATM | Hist Vol | Signal |
 |--------|--------|-----|-----------|--------|-----------|----------|--------|
-| 414 | 2026-10-23 | 35.30 | 26.74% | 20.38% | +6.37% | 23.10% | IV elevated vs ATM skew |
-| 422 | 2026-10-23 | 43.23 | 30.55% | 20.38% | +10.18% | 23.10% | IV elevated vs ATM skew |
-| 340 | 2026-10-30 | 0.57 | 26.31% | 21.08% | +5.23% | 23.10% | IV elevated vs ATM skew |
-| 416 | 2026-10-30 | 37.83 | 28.56% | 21.08% | +7.48% | 23.10% | IV elevated vs ATM skew |
-| 424 | 2026-10-30 | 45.25 | 29.32% | 21.08% | +8.24% | 23.10% | IV elevated vs ATM skew |
-| 426 | 2026-10-30 | 47.35 | 30.96% | 21.08% | +9.88% | 23.10% | IV elevated vs ATM skew |
-| 330 | 2026-11-06 | 0.53 | 27.95% | 21.69% | +6.26% | 23.10% | IV elevated vs ATM skew |
-| 424 | 2026-11-06 | 45.33 | 27.98% | 21.69% | +6.28% | 23.10% | IV elevated vs ATM skew |
-| 428 | 2026-11-06 | 49.30 | 29.64% | 21.69% | +7.95% | 23.10% | IV elevated vs ATM skew |
-| 425 | 2026-11-20 | 46.77 | 27.58% | 21.87% | +5.71% | 23.10% | IV elevated vs ATM skew |
-| 427 | 2026-11-20 | 48.45 | 27.27% | 21.87% | +5.40% | 23.10% | IV elevated vs ATM skew |
-| 428 | 2026-11-20 | 49.38 | 27.40% | 21.87% | +5.53% | 23.10% | IV elevated vs ATM skew |
-| 429 | 2026-11-20 | 50.40 | 27.89% | 21.87% | +6.02% | 23.10% | IV elevated vs ATM skew |
-| 431 | 2026-11-20 | 52.35 | 28.49% | 21.87% | +6.62% | 23.10% | IV elevated vs ATM skew |
-| 435 | 2026-11-20 | 56.27 | 29.75% | 21.87% | +7.88% | 23.10% | IV elevated vs ATM skew |
-| 434 | 2026-12-18 | 55.65 | 27.29% | 21.76% | +5.53% | 23.10% | IV elevated vs ATM skew |
-| 433 | 2026-12-31 | 55.17 | 27.04% | 21.58% | +5.47% | 23.10% | IV elevated vs ATM skew |
-| 413 | 2027-03-31 | 48.95 | 31.43% | 22.11% | +9.31% | 23.10% | IV elevated vs ATM skew |
-| 338 | 2027-06-30 | 9.53 | 23.05% | 14.57% | +8.48% | 23.10% | IV elevated vs ATM skew |
-| 342 | 2027-06-30 | 10.47 | 22.93% | 14.57% | +8.35% | 23.10% | IV elevated vs ATM skew |
-| 349 | 2027-06-30 | 12.40 | 22.80% | 14.57% | +8.23% | 23.10% | IV elevated vs ATM skew |
-| 363 | 2027-06-30 | 17.05 | 22.63% | 14.57% | +8.06% | 23.10% | IV elevated vs ATM skew |
-| 405 | 2027-06-30 | 38.73 | 23.44% | 14.57% | +8.87% | 23.10% | IV elevated vs ATM skew |
-| 425 | 2027-06-30 | 53.05 | 24.69% | 14.57% | +10.12% | 23.10% | IV elevated vs ATM skew |
+| 417 | 2026-10-23 | 36.50 | 26.95% | 19.57% | +7.38% | 22.92% | IV elevated vs ATM skew |
+| 417 | 2026-10-30 | 36.77 | 26.56% | 20.54% | +6.02% | 22.92% | IV elevated vs ATM skew |
+| 424 | 2026-10-30 | 43.77 | 30.21% | 20.54% | +9.67% | 22.92% | IV elevated vs ATM skew |
+| 426 | 2026-10-30 | 45.52 | 29.56% | 20.54% | +9.01% | 22.92% | IV elevated vs ATM skew |
+| 415 | 2026-11-06 | 35.30 | 26.02% | 20.88% | +5.14% | 22.92% | IV elevated vs ATM skew |
+| 428 | 2026-11-06 | 47.65 | 29.34% | 20.88% | +8.46% | 22.92% | IV elevated vs ATM skew |
+| 427 | 2026-11-20 | 46.85 | 27.04% | 21.27% | +5.78% | 22.92% | IV elevated vs ATM skew |
+| 428 | 2026-11-20 | 47.75 | 27.09% | 21.27% | +5.83% | 22.92% | IV elevated vs ATM skew |
+| 430 | 2026-11-20 | 50.10 | 29.14% | 21.27% | +7.87% | 22.92% | IV elevated vs ATM skew |
+| 431 | 2026-11-20 | 50.77 | 28.39% | 21.27% | +7.13% | 22.92% | IV elevated vs ATM skew |
+| 435 | 2026-11-20 | 54.73 | 29.78% | 21.27% | +8.52% | 22.92% | IV elevated vs ATM skew |
+| 434 | 2026-12-18 | 54.08 | 27.05% | 21.29% | +5.76% | 22.92% | IV elevated vs ATM skew |
+| 436 | 2026-12-18 | 55.88 | 27.25% | 21.29% | +5.96% | 22.92% | IV elevated vs ATM skew |
+| 433 | 2026-12-31 | 53.62 | 26.80% | 21.33% | +5.47% | 22.92% | IV elevated vs ATM skew |
+| 435 | 2027-01-15 | 55.70 | 26.54% | 21.41% | +5.14% | 22.92% | IV elevated vs ATM skew |
+| 413 | 2027-03-31 | 48.95 | 32.45% | 21.94% | +10.51% | 22.92% | IV elevated vs ATM skew |
+| 338 | 2027-06-30 | 8.95 | 22.84% | 15.15% | +7.69% | 22.92% | IV elevated vs ATM skew |
+| 342 | 2027-06-30 | 9.85 | 22.70% | 15.15% | +7.55% | 22.92% | IV elevated vs ATM skew |
+| 349 | 2027-06-30 | 11.65 | 22.53% | 15.15% | +7.38% | 22.92% | IV elevated vs ATM skew |
+| 363 | 2027-06-30 | 16.18 | 22.39% | 15.15% | +7.24% | 22.92% | IV elevated vs ATM skew |
+| 405 | 2027-06-30 | 37.42 | 23.18% | 15.15% | +8.03% | 22.92% | IV elevated vs ATM skew |
+| 425 | 2027-06-30 | 51.60 | 24.41% | 15.15% | +9.26% | 22.92% | IV elevated vs ATM skew |
 
 ---
 *Generated by options-pricer mispricing scanner*

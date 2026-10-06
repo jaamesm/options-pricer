@@ -1,15 +1,9 @@
 ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-NVDA,call,205.0,2026-10-23,0.0493,32.075,39.04,28.94,38.4,10.11,0.64,IV elevated vs ATM skew
-NVDA,call,210.0,2026-10-23,0.0493,27.425,38.9,28.94,38.4,9.96,0.5,IV elevated vs ATM skew
-NVDA,call,215.0,2026-10-23,0.0493,22.75,36.42,28.94,38.4,7.48,-1.99,IV elevated vs ATM skew
-NVDA,put,210.0,2026-10-23,0.0493,0.57,36.75,28.22,38.4,8.53,-1.66,IV elevated vs ATM skew
-NVDA,put,215.0,2026-10-23,0.0493,0.835,34.25,28.22,38.4,6.03,-4.15,IV elevated vs ATM skew
-NVDA,call,210.0,2026-10-30,0.0685,27.975,37.18,29.5,38.4,7.68,-1.22,IV elevated vs ATM skew
-NVDA,call,215.0,2026-10-30,0.0685,23.45,35.37,29.5,38.4,5.87,-3.03,IV elevated vs ATM skew
-NVDA,put,205.0,2026-10-30,0.0685,0.675,37.59,28.79,38.4,8.8,-0.82,IV elevated vs ATM skew
-NVDA,put,210.0,2026-10-30,0.0685,0.92,35.27,28.79,38.4,6.48,-3.13,IV elevated vs ATM skew
-NVDA,call,205.0,2026-11-06,0.0877,32.975,36.51,29.72,38.4,6.78,-1.89,IV elevated vs ATM skew
-NVDA,put,205.0,2026-11-06,0.0877,0.935,36.09,29.01,38.4,7.08,-2.31,IV elevated vs ATM skew
-NVDA,put,210.0,2026-11-06,0.0877,1.285,34.36,29.01,38.4,5.35,-4.05,IV elevated vs ATM skew
-NVDA,put,205.0,2026-11-13,0.1068,1.205,35.07,29.18,38.4,5.9,-3.33,IV elevated vs ATM skew
-NVDA,call,205.0,2026-11-20,0.126,34.75,40.14,34.52,38.4,5.63,1.74,IV elevated vs ATM skew
+NVDA,put,215.0,2026-10-23,0.0466,0.505,36.91,29.35,37.51,7.55,-0.6,IV elevated vs ATM skew
+NVDA,put,220.0,2026-10-23,0.0466,0.74,34.4,29.35,37.51,5.04,-3.11,IV elevated vs ATM skew
+NVDA,call,215.0,2026-10-30,0.0658,28.675,35.27,28.45,37.51,6.83,-2.23,IV elevated vs ATM skew
+NVDA,put,210.0,2026-10-30,0.0658,0.635,37.78,29.77,37.51,8.0,0.27,IV elevated vs ATM skew
+NVDA,put,215.0,2026-10-30,0.0658,0.885,35.71,29.77,37.51,5.93,-1.8,IV elevated vs ATM skew
+NVDA,put,270.0,2026-10-30,0.0658,28.625,36.91,29.77,37.51,7.14,-0.59,IV elevated vs ATM skew
+NVDA,put,210.0,2026-11-06,0.0849,0.91,36.34,29.75,37.51,6.59,-1.16,IV elevated vs ATM skew
+NVDA,put,210.0,2026-11-13,0.1041,1.185,35.28,29.59,37.51,5.69,-2.23,IV elevated vs ATM skew
