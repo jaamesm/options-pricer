@@ -1,19 +1,6 @@
 ticker,kind,strike,expiry_date,expiry,mid,market_iv,atm_iv,hist_vol,iv_vs_atm,iv_vs_hist,signal
-TSLA,put,340.0,2026-11-27,0.0411,1.34,50.88,41.29,52.73,9.59,-1.85,IV elevated vs ATM skew
-TSLA,put,345.0,2026-11-27,0.0411,1.655,49.51,41.29,52.73,8.22,-3.21,IV elevated vs ATM skew
-TSLA,put,350.0,2026-11-27,0.0411,2.085,48.44,41.29,52.73,7.15,-4.28,IV elevated vs ATM skew
-TSLA,put,355.0,2026-11-27,0.0411,2.66,47.64,41.29,52.73,6.35,-5.09,IV elevated vs ATM skew
-TSLA,put,360.0,2026-11-27,0.0411,3.275,46.37,41.29,52.73,5.07,-6.36,IV elevated vs ATM skew
-TSLA,put,420.0,2026-11-27,0.0411,32.5,48.02,41.29,52.73,6.73,-4.71,IV elevated vs ATM skew
-TSLA,put,425.0,2026-11-27,0.0411,36.575,48.71,41.29,52.73,7.42,-4.02,IV elevated vs ATM skew
-TSLA,put,445.0,2026-11-27,0.0411,54.475,53.69,41.29,52.73,12.4,0.96,IV elevated vs ATM skew
-TSLA,put,335.0,2026-12-04,0.0603,2.305,52.23,43.17,52.73,9.05,-0.5,IV elevated vs ATM skew
-TSLA,put,340.0,2026-12-04,0.0603,2.75,51.17,43.17,52.73,8.0,-1.56,IV elevated vs ATM skew
-TSLA,put,345.0,2026-12-04,0.0603,3.275,50.13,43.17,52.73,6.96,-2.6,IV elevated vs ATM skew
-TSLA,put,350.0,2026-12-04,0.0603,3.9,49.13,43.17,52.73,5.96,-3.59,IV elevated vs ATM skew
-TSLA,call,340.0,2026-12-11,0.0795,57.125,47.42,41.65,52.73,5.77,-5.3,IV elevated vs ATM skew
-TSLA,put,340.0,2026-12-11,0.0795,3.95,50.13,43.19,52.73,6.94,-2.6,IV elevated vs ATM skew
-TSLA,put,335.0,2026-12-18,0.0986,4.275,49.54,42.81,52.73,6.72,-3.19,IV elevated vs ATM skew
-TSLA,put,340.0,2026-12-18,0.0986,4.975,48.88,42.81,52.73,6.07,-3.84,IV elevated vs ATM skew
-TSLA,put,345.0,2026-12-18,0.0986,5.65,47.85,42.81,52.73,5.03,-4.88,IV elevated vs ATM skew
-TSLA,put,335.0,2026-12-24,0.1151,4.95,48.33,41.69,52.73,6.63,-4.4,IV elevated vs ATM skew
+TSLA,put,335.0,2026-11-27,0.0384,1.53,56.84,49.98,51.78,6.85,5.06,IV elevated vs ATM skew
+TSLA,put,340.0,2026-11-27,0.0384,1.905,55.71,49.98,51.78,5.73,3.94,IV elevated vs ATM skew
+TSLA,put,445.0,2026-11-27,0.0384,58.125,63.5,49.98,51.78,13.52,11.73,IV elevated vs ATM skew
+TSLA,put,335.0,2026-12-04,0.0575,3.06,56.35,50.5,51.78,5.85,4.57,IV elevated vs ATM skew
+TSLA,put,335.0,2026-12-11,0.0767,4.45,55.23,48.88,51.78,6.35,3.45,IV elevated vs ATM skew
